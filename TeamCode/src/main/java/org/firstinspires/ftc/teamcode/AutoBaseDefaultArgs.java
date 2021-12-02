@@ -36,9 +36,9 @@ public class AutoBaseDefaultArgs {
     static final double TURN_SPEED = 1.0;
 
 
-    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+    static final double HEADING_THRESHOLD = 1; // As tight as we can make it with an integer gyro
+    static final double P_TURN_COEFF = 0.1; // Larger is more responsive, but also less stable
+    static final double P_DRIVE_COEFF = 0.15; // Larger is more responsive, but also less stable
     static final double LEFT_DAMPING_CONSTANT = 0.885;
     static final double RIGHT_DAMPING_CONSTANT = 0.885;
     static final double DISTANCE_TO_ANGLE_CONSTANT = 1.2;
@@ -53,14 +53,14 @@ public class AutoBaseDefaultArgs {
     static double FL_TO_BR_DIMENSION_IN;
 
     public void InitAuto(
-            HardwareMap hardwareMap,
-            String left_front_name,
-            String right_front_name,
-            String left_back_name,
-            String right_back_name,
-            Telemetry telemetry,
-            double fr_to_bl_dimension_in,
-            double fl_to_br_dimension_in
+        HardwareMap hardwareMap,
+        String left_front_name,
+        String right_front_name,
+        String left_back_name,
+        String right_back_name,
+        Telemetry telemetry,
+        double fr_to_bl_dimension_in,
+        double fl_to_br_dimension_in
     ) {
         FR_TO_BL_DIMENSION_IN = fr_to_bl_dimension_in;
         FL_TO_BR_DIMENSION_IN = fr_to_bl_dimension_in;
@@ -88,11 +88,11 @@ public class AutoBaseDefaultArgs {
 
     private static void initIMU(HardwareMap hardwareMap) {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -135,7 +135,7 @@ public class AutoBaseDefaultArgs {
         left_back.setMode(DcMotor.RunMode.RESET_ENCODERS);
         right_back.setMode(DcMotor.RunMode.RESET_ENCODERS);
     }
-    
+
     private static void setTargetPositionsForward(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(distance);
@@ -284,7 +284,7 @@ public class AutoBaseDefaultArgs {
         right_back.setPower(-MotorPower);
     }
 
-    public void driveForward(int distanceIN, double... MotorPower) {
+    public void driveForward(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -306,8 +306,8 @@ public class AutoBaseDefaultArgs {
         stopDriving();
         setRunUsingEncoders();
     }
-    
-    public void driveBackward(int distanceIN, double... MotorPower) {
+
+    public void driveBackward(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -329,8 +329,8 @@ public class AutoBaseDefaultArgs {
         stopDriving();
         setRunUsingEncoders();
     }
-    
-    public void strafeLeft(int distanceIN, double... MotorPower) {
+
+    public void strafeLeft(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -352,8 +352,8 @@ public class AutoBaseDefaultArgs {
         stopDriving();
         setRunUsingEncoders();
     }
-    
-    public void strafeRight(int distanceIN, double... MotorPower) {
+
+    public void strafeRight(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -376,7 +376,7 @@ public class AutoBaseDefaultArgs {
         setRunUsingEncoders();
     }
 
-    public void strafeNW(int distanceIN, double... MotorPower) {
+    public void strafeNW(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -399,7 +399,7 @@ public class AutoBaseDefaultArgs {
         setRunUsingEncoders();
     }
 
-    public void strafeNE(int distanceIN, double... MotorPower) {
+    public void strafeNE(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -422,7 +422,7 @@ public class AutoBaseDefaultArgs {
         setRunUsingEncoders();
     }
 
-    public void strafeSW(int distanceIN, double... MotorPower) {
+    public void strafeSW(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -434,10 +434,10 @@ public class AutoBaseDefaultArgs {
         setRunToPosition();
         goSW(Motor_Power);
         while (
-             left_front.isBusy() &&
-             right_front.isBusy() &&
-             left_back.isBusy() &&
-             right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -445,7 +445,7 @@ public class AutoBaseDefaultArgs {
         setRunUsingEncoders();
     }
 
-    public void strafeSE(int distanceIN, double... MotorPower) {
+    public void strafeSE(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -457,10 +457,10 @@ public class AutoBaseDefaultArgs {
         setRunToPosition();
         goSE(Motor_Power);
         while (
-             left_front.isBusy() &&
-             right_front.isBusy() &&
-             left_back.isBusy() &&
-             right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -468,23 +468,23 @@ public class AutoBaseDefaultArgs {
         setRunUsingEncoders();
     }
 
-    public void turnLeft(int degrees, double... MotorPower) {
+    public void turnLeft(int degrees, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
         } else {
             Motor_Power = TURN_SPEED;
         }
-        int hypotenuse = (int) Math.sqrt(Math.pow(FL_TO_BR_DIMENSION_IN/2, 2) + Math.pow(FR_TO_BL_DIMENSION_IN/2, 2));
+        int hypotenuse = (int) Math.sqrt(Math.pow(FL_TO_BR_DIMENSION_IN / 2, 2) + Math.pow(FR_TO_BL_DIMENSION_IN / 2, 2));
         resetEncoders();
-        setTargetPositionsTurnLeft((hypotenuse/90)*degrees);
+        setTargetPositionsTurnLeft((hypotenuse / 90) * degrees);
         setRunToPosition();
         goTurnLeft(Motor_Power);
         while (
-                left_front.isBusy() &&
-                right_front.isBusy() &&
-                left_back.isBusy() &&
-                right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -492,23 +492,23 @@ public class AutoBaseDefaultArgs {
         setRunUsingEncoders();
     }
 
-    public void turnRight(int degrees, double... MotorPower) {
+    public void turnRight(int degrees, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
         } else {
             Motor_Power = TURN_SPEED;
         }
-        int hypotenuse = (int) Math.sqrt(Math.pow(FL_TO_BR_DIMENSION_IN/2, 2) + Math.pow(FR_TO_BL_DIMENSION_IN/2, 2));
+        int hypotenuse = (int) Math.sqrt(Math.pow(FL_TO_BR_DIMENSION_IN / 2, 2) + Math.pow(FR_TO_BL_DIMENSION_IN / 2, 2));
         resetEncoders();
-        setTargetPositionsTurnRight((hypotenuse/90)*degrees);
+        setTargetPositionsTurnRight((hypotenuse / 90) * degrees);
         setRunToPosition();
         goTurnRight(Motor_Power);
         while (
-                left_front.isBusy() &&
-                right_front.isBusy() &&
-                left_back.isBusy() &&
-                right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
