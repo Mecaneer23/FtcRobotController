@@ -50,20 +50,20 @@ public class Simple_Mecanum extends LinearOpMode {
             backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             while (opModeIsActive()) {
                 x = gamepad1.left_stick_x;
-                y = gamepad1.left_stick_y;
+                y = -gamepad1.left_stick_y;
                 clockwise = gamepad1.right_stick_x;
 
                 if (gamepad1.dpad_up) {
-                    y = (float) - 1.0;
+                    y = (float) 1.0;
                 }
                 if (gamepad1.dpad_down) {
-                    y = (float) 1.0;
+                    y = (float) -1.0;
                 }
                 if (gamepad1.dpad_right) {
                     x = (float) 1.0;
                 }
                 if (gamepad1.dpad_left) {
-                    x = (float) - 1.0;
+                    x = (float) -1.0;
                 }
 
                 fl = y - x - clockwise;
