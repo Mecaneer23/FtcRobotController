@@ -35,22 +35,18 @@ public class FreightFrenzy extends LinearOpMode {
         double br;
         boolean isGrabbing;
 
-        frontLeft = hardwareMap.get(DcMotor.class,
-                "frontLeft");
-        backLeft = hardwareMap.get(DcMotor.class,
-                "backLeft");
-        frontRight = hardwareMap.get(DcMotor.class,
-                "frontRight");
-        backRight = hardwareMap.get(DcMotor.class,
-                "backRight");
-        CarouselSpinner = hardwareMap.get(DcMotor.class,
-                "CarouselSpinner");
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        CarouselSpinner = hardwareMap.get(DcMotor.class, "CarouselSpinner");
         ArmRotation = hardwareMap.get(DcMotor.class, "ArmRotation");
-        Grabber = hardwareMap.get(Servo.class, "Grabber");
+    
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
-        CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
-
+        
+        Grabber = hardwareMap.get(Servo.class, "Grabber");
+        
         waitForStart();
         if (opModeIsActive()) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

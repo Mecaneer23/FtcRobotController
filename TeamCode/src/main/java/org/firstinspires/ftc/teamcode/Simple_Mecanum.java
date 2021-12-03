@@ -31,14 +31,11 @@ public class Simple_Mecanum extends LinearOpMode {
         double bl;
         double br;
 	    
-        frontLeft = hardwareMap.get(DcMotor.class,
-            "frontLeft");
-        backLeft = hardwareMap.get(DcMotor.class,
-            "backLeft");
-        frontRight = hardwareMap.get(DcMotor.class,
-            "frontRight");
-        backRight = hardwareMap.get(DcMotor.class,
-            "backRight");
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
