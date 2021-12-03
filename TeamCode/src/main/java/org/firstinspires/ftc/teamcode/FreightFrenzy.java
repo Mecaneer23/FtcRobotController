@@ -21,6 +21,8 @@ public class FreightFrenzy extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor backRight;
     private DcMotor CarouselSpinner;
+    private DcMotor ArmRotation;
+    private Servo Grabber;
 
     @Override
     public void runOpMode() {
@@ -31,17 +33,20 @@ public class FreightFrenzy extends LinearOpMode {
         double fr;
         double bl;
         double br;
-	    
+        boolean isGrabbing;
+
         frontLeft = hardwareMap.get(DcMotor.class,
-            "frontLeft");
+                "frontLeft");
         backLeft = hardwareMap.get(DcMotor.class,
-            "backLeft");
+                "backLeft");
         frontRight = hardwareMap.get(DcMotor.class,
-            "frontRight");
+                "frontRight");
         backRight = hardwareMap.get(DcMotor.class,
-            "backRight");
+                "backRight");
         CarouselSpinner = hardwareMap.get(DcMotor.class,
-            "CarouselSpinner");
+                "CarouselSpinner");
+        ArmRotation = hardwareMap.get(DcMotor.class, "ArmRotation");
+        Grabber = hardwareMap.get(Servo.class, "Grabber");
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
         CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
@@ -55,34 +60,34 @@ public class FreightFrenzy extends LinearOpMode {
             CarouselSpinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             while (opModeIsActive()) {
                 x = gamepad1.left_stick_x;
-                y = gamepad1.left_stick_y;
+                y = -gamepad1.left_stick_y;
                 clockwise = gamepad1.right_stick_x;
 
                 if (gamepad1.dpad_up) {
-                    y = (float) - 1.0;
+                    y = (float) 1.0;
                 }
                 if (gamepad1.dpad_down) {
-                    y = (float) 1.0;
+                    y = (float) -1.0;
                 }
                 if (gamepad1.dpad_right) {
                     x = (float) 1.0;
                 }
                 if (gamepad1.dpad_left) {
-                    x = (float) - 1.0;
+                    x = (float) -1.0;
                 }
 
                 fl = y - x - clockwise;
                 fr = y + x + clockwise;
                 bl = y + x - clockwise;
                 br = y - x + clockwise;
-                
+
                 if (gamepad1.right_bumper) {
                     fl /= 2;
                     fr /= 2;
                     bl /= 2;
                     br /= 2;
-                } 
-                    
+                }
+
                 frontLeft.setPower(fl);
                 frontRight.setPower(fr);
                 backLeft.setPower(bl);
@@ -93,7 +98,14 @@ public class FreightFrenzy extends LinearOpMode {
                 } else if (gamepad1.b) {
                     CarouselSpinner.setPower((float)-0.95);
                 } else {
-                    CarouselSpinner.setPower((float)0);                  
+                    CarouselSpinner.setPower((float)0);
+                }
+
+                ArmRotation.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+
+                if (gamepad1.x) {
+                    isGrabbing = !isGrabbing;
+                    Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
                 }
 
                 telemetry.update();
