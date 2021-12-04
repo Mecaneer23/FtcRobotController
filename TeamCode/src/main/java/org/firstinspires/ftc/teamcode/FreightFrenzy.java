@@ -36,29 +36,25 @@ public class FreightFrenzy extends LinearOpMode {
         double fr;
         double bl;
         double br;
-        boolean isGrabbing = false;
+        boolean isGrabbing = true;
         boolean changed = false;
         
-        frontLeft = hardwareMap.get(DcMotor.class,
-            "frontLeft");
-        backLeft = hardwareMap.get(DcMotor.class,
-            "backLeft");
-        frontRight = hardwareMap.get(DcMotor.class,
-            "frontRight");
-        backRight = hardwareMap.get(DcMotor.class,
-            "backRight");
-        CarouselSpinner = hardwareMap.get(DcMotor.class,
-            "CarouselSpinner");
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        CarouselSpinner = hardwareMap.get(DcMotor.class, "CarouselSpinner");
         ArmRotation = hardwareMap.get(DcMotor.class, "ArmRotation");
         Grabber = hardwareMap.get(Servo.class, "Grabber");
+        
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
         
         Grabber.setDirection(Servo.Direction.REVERSE);
         
-        Grabber.setPosition(0.5);
-
+        Grabber.setPosition((double) 1.0);
+        
         waitForStart();
         if (opModeIsActive()) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -104,38 +100,25 @@ public class FreightFrenzy extends LinearOpMode {
                 backRight.setPower(br);
 
                 if (gamepad1.a) {
-                    CarouselSpinner.setPower((float)0.95);
+                    CarouselSpinner.setPower((float)0.35);
                 } else if (gamepad1.b) {
-                    CarouselSpinner.setPower((float)-0.95);
+                    CarouselSpinner.setPower((float)-0.35);
                 } else {
                     CarouselSpinner.setPower((float)0);                  
                 }
                 
                 ArmRotation.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
-                
-                // if (gamepad1.x) {
-                //     // isGrabbing = !isGrabbing;
-                //     // Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
-                //     Grabber.setPosition((double) 1.0);
-                // } else if (gamepad1.y) {
-                //     Grabber.setPosition((double) 0.5);
-                // }
 
-                // gamepad1.x is a toggle for grabbing
-                // when you want to toggle, press x
-                // when you toggle, grabber should be set to either 1.0 or 0.5, depending on whether you are grabbing or not
-                // make sure to account for the button being pressed and released - only toggle when the button is released
                 if (gamepad1.x) {
                     if (!changed) {
                         isGrabbing = !isGrabbing;
-                        changed = true;
+                            changed = true;
                     }
                 } else {
-                    changed = false;
+                       changed = false;
                 }
                 Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
                 
-                telemetry.addData("servo", isGrabbing);
                 telemetry.update();
             }
         }
