@@ -32,44 +32,53 @@ public class AutoBase {
     static final ElapsedTime runtime = new ElapsedTime();
 
     // Drive speed constants
-    static final double DRIVE_SPEED = 1.0;
-    static final double TURN_SPEED = 1.0;
+    static double DRIVE_SPEED = 1.0;
+    static double TURN_SPEED = 1.0;
 
-
-    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
-    static final double LEFT_DAMPING_CONSTANT = 0.885;
-    static final double RIGHT_DAMPING_CONSTANT = 0.885;
-    static final double DISTANCE_TO_ANGLE_CONSTANT = 1.2;
+    // static final double HEADING_THRESHOLD = 1; // As tight as we can make it with an integer gyro
+    // static final double P_TURN_COEFF = 0.1; // Larger is more responsive, but also less stable
+    // static final double P_DRIVE_COEFF = 0.15; // Larger is more responsive, but also less stable
+    // static final double LEFT_DAMPING_CONSTANT = 0.885;
+    // static final double RIGHT_DAMPING_CONSTANT = 0.885;
+    // static final double DISTANCE_TO_ANGLE_CONSTANT = 1.2;
 
     // Motor encoder configuration constant
     static final double TETRIX_TICKS_PER_MOTOR_REV = 1440;
     static final double ANDYMARK_TICKS_PER_MOTOR_REV = 1120;
-    static final double PULSES_PER_REVOLUTION = ANDYMARK_TICKS_PER_MOTOR_REV;
+    static final double GOBILDA_TICKS_PER_MOTOR_REV = 537;
+    static final double PULSES_PER_REVOLUTION = GOBILDA_TICKS_PER_MOTOR_REV;
     static final double WHEEL_DIAMETER_IN = 4;
     static final double PULSES_PER_IN = PULSES_PER_REVOLUTION / (WHEEL_DIAMETER_IN * 3.1415);
-    static double FR_TO_BL_DIMENSION_IN;
-    static double FL_TO_BR_DIMENSION_IN;
+    static double ROBOT_LENGTH_IN = 18;
+    static double ROBOT_WIDTH_IN = 18;
 
     public void InitAuto(
-            HardwareMap hardwareMap,
-            String left_front_name,
-            String right_front_name,
-            String left_back_name,
-            String right_back_name,
-            Telemetry telemetry,
-            double fr_to_bl_dimension_in,
-            double fl_to_br_dimension_in
+        HardwareMap hardwareMap,
+        String left_front_name,
+        String right_front_name,
+        String left_back_name,
+        String right_back_name,
+        Telemetry telemetry,
+        double...len_width_speed_turnSpeed
     ) {
-        FR_TO_BL_DIMENSION_IN = fr_to_bl_dimension_in;
-        FL_TO_BR_DIMENSION_IN = fr_to_bl_dimension_in;
+        if (len_width_speed_turnSpeed.length == 4) {
+            ROBOT_LENGTH_IN = len_width_speed_turnSpeed[0] != 0 ? len_width_speed_turnSpeed[0] : ROBOT_LENGTH_IN;
+            ROBOT_WIDTH_IN = len_width_speed_turnSpeed[1] != 0 ? len_width_speed_turnSpeed[1] : ROBOT_WIDTH_IN;
+            DRIVE_SPEED = len_width_speed_turnSpeed[2] != 0 ? len_width_speed_turnSpeed[2] : DRIVE_SPEED;
+            TURN_SPEED = len_width_speed_turnSpeed[3] != 0 ? len_width_speed_turnSpeed[3] : TURN_SPEED;
+        }
+
         initIMU(hardwareMap);
 
         left_front = hardwareMap.get(DcMotor.class, left_front_name);
         right_front = hardwareMap.get(DcMotor.class, right_front_name);
         left_back = hardwareMap.get(DcMotor.class, left_back_name);
         right_back = hardwareMap.get(DcMotor.class, right_back_name);
+
+        left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         right_front.setDirection(DcMotor.Direction.REVERSE);
         right_back.setDirection(DcMotor.Direction.REVERSE);
@@ -88,11 +97,11 @@ public class AutoBase {
 
     private static void initIMU(HardwareMap hardwareMap) {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -135,7 +144,7 @@ public class AutoBase {
         left_back.setMode(DcMotor.RunMode.RESET_ENCODERS);
         right_back.setMode(DcMotor.RunMode.RESET_ENCODERS);
     }
-    
+
     private static void setTargetPositionsForward(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(distance);
@@ -284,74 +293,17 @@ public class AutoBase {
         right_back.setPower(-MotorPower);
     }
 
-    public void driveForward(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void driveBackward(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsForward(distanceIN);
+        setTargetPositionsForward((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goForward(MotorPower);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            // waiting for target position to be reached
-        }
-        stopDriving();
-        setRunUsingEncoders();
-    }
-    
-    public void driveBackward(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setTargetPositionsBackward(distanceIN);
-        setRunToPosition();
-        goBackward(MotorPower);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            // waiting for target position to be reached
-        }
-        stopDriving();
-        setRunUsingEncoders();
-    }
-    
-    public void strafeLeft(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setTargetPositionsLeft(distanceIN);
-        setRunToPosition();
-        goLeft(MotorPower);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            // waiting for target position to be reached
-        }
-        stopDriving();
-        setRunUsingEncoders();
-    }
-    
-    public void strafeRight(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setTargetPositionsRight(distanceIN);
-        setRunToPosition();
-        goRight(MotorPower);
+        goForward(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -364,14 +316,17 @@ public class AutoBase {
         setRunUsingEncoders();
     }
 
-    public void strafeNW(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void driveForward(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsNW(distanceIN);
+        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goNW(MotorPower);
+        goBackward(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -384,14 +339,17 @@ public class AutoBase {
         setRunUsingEncoders();
     }
 
-    public void strafeNE(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void strafeLeft(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsNE(distanceIN);
+        setTargetPositionsLeft((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goNE(MotorPower);
+        goLeft(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -404,19 +362,22 @@ public class AutoBase {
         setRunUsingEncoders();
     }
 
-    public void strafeSW(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void strafeRight(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsSW(distanceIN);
+        setTargetPositionsRight((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goSW(MotorPower);
+        goRight(Motor_Power);
         while (
-             left_front.isBusy() &&
-             right_front.isBusy() &&
-             left_back.isBusy() &&
-             right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -424,19 +385,22 @@ public class AutoBase {
         setRunUsingEncoders();
     }
 
-    public void strafeSE(int distanceIN, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void strafeNW(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsSE(distanceIN);
+        setTargetPositionsNW((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goSE(MotorPower);
+        goNW(Motor_Power);
         while (
-             left_front.isBusy() &&
-             right_front.isBusy() &&
-             left_back.isBusy() &&
-             right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -444,20 +408,22 @@ public class AutoBase {
         setRunUsingEncoders();
     }
 
-    public void turnLeft(int degrees, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void strafeNE(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
-        int hypotenuse = (int) Math.sqrt(Math.pow(FL_TO_BR_DIMENSION_IN/2, 2) + Math.pow(FR_TO_BL_DIMENSION_IN/2, 2));
         resetEncoders();
-        setTargetPositionsTurnLeft((hypotenuse/90)*degrees);
+        setTargetPositionsNE((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goTurnLeft(MotorPower);
+        goNE(Motor_Power);
         while (
-                left_front.isBusy() &&
-                right_front.isBusy() &&
-                left_back.isBusy() &&
-                right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -465,20 +431,93 @@ public class AutoBase {
         setRunUsingEncoders();
     }
 
-    public void turnRight(int degrees, double MotorPower) {
-        if (MotorPower == (double) 2) {
-            MotorPower = DRIVE_SPEED;
+    public void strafeSW(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
         }
-        int hypotenuse = (int) Math.sqrt(Math.pow(FL_TO_BR_DIMENSION_IN/2, 2) + Math.pow(FR_TO_BL_DIMENSION_IN/2, 2));
         resetEncoders();
-        setTargetPositionsTurnRight((hypotenuse/90)*degrees);
+        setTargetPositionsSW((int) Math.round(PULSES_PER_IN));
         setRunToPosition();
-        goTurnRight(MotorPower);
+        goSW(Motor_Power);
         while (
-                left_front.isBusy() &&
-                right_front.isBusy() &&
-                left_back.isBusy() &&
-                right_back.isBusy()
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
+        ) {
+            // waiting for target position to be reached
+        }
+        stopDriving();
+        setRunUsingEncoders();
+    }
+
+    public void strafeSE(int distanceIN, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = DRIVE_SPEED;
+        }
+        resetEncoders();
+        setTargetPositionsSE((int) Math.round(PULSES_PER_IN));
+        setRunToPosition();
+        goSE(Motor_Power);
+        while (
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
+        ) {
+            // waiting for target position to be reached
+        }
+        stopDriving();
+        setRunUsingEncoders();
+    }
+
+    public void turnLeft(int degrees, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = TURN_SPEED;
+        }
+        int hypotenuse = (int) Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2));
+        resetEncoders();
+        setTargetPositionsTurnLeft((hypotenuse / 90) * degrees);
+        setRunToPosition();
+        goTurnLeft(Motor_Power);
+        while (
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
+        ) {
+            // waiting for target position to be reached
+        }
+        stopDriving();
+        setRunUsingEncoders();
+    }
+
+    public void turnRight(int degrees, double...MotorPower) {
+        double Motor_Power;
+        if (MotorPower.length == 1) {
+            Motor_Power = MotorPower[0];
+        } else {
+            Motor_Power = TURN_SPEED;
+        }
+        int hypotenuse = (int) Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2));
+        resetEncoders();
+        setTargetPositionsTurnRight((hypotenuse / 90) * degrees);
+        setRunToPosition();
+        goTurnRight(Motor_Power);
+        while (
+            left_front.isBusy() &&
+            right_front.isBusy() &&
+            left_back.isBusy() &&
+            right_back.isBusy()
         ) {
             // waiting for target position to be reached
         }
@@ -493,14 +532,14 @@ public class AutoBase {
     auto.InitAuto()
 
     // During run loop:
-    auto.driveForward(distanceIN, (double) 2);
-    auto.driveBackward(distanceIN, (double) 2);
-    auto.strafeLeft(distanceIN, (double) 2);
-    auto.strafeRight(distanceIN, (double) 2);
-    auto.strafeNW(distanceIN, (double) 2);
-    auto.strafeNE(distanceIN, (double) 2);
-    auto.strafeSW(distanceIN, (double) 2);
-    auto.strafeSE(distanceIN, (double) 2);
-    auto.turnLeft(degrees, (double) 2);
-    auto.turnRight(degrees, (double) 2);
+    auto.driveForward(12);
+    auto.driveBackward(12);
+    auto.strafeLeft(12);
+    auto.strafeRight(12);
+    auto.strafeNW(12);
+    auto.strafeNE(12);
+    auto.strafeSW(12);
+    auto.strafeSE(12);
+    auto.turnLeft(90);
+    auto.turnRight(90);
 */
