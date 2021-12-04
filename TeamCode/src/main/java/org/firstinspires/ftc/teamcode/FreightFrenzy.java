@@ -113,13 +113,27 @@ public class FreightFrenzy extends LinearOpMode {
                 
                 ArmRotation.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
                 
+                // if (gamepad1.x) {
+                //     // isGrabbing = !isGrabbing;
+                //     // Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
+                //     Grabber.setPosition((double) 1.0);
+                // } else if (gamepad1.y) {
+                //     Grabber.setPosition((double) 0.5);
+                // }
+
+                // gamepad1.x is a toggle for grabbing
+                // when you want to toggle, press x
+                // when you toggle, grabber should be set to either 1.0 or 0.5, depending on whether you are grabbing or not
+                // make sure to account for the button being pressed and released - only toggle when the button is released
                 if (gamepad1.x) {
-                    // isGrabbing = !isGrabbing;
-                    // Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
-                    Grabber.setPosition((double) 1.0);
-                } else if (gamepad1.y) {
-                    Grabber.setPosition((double) 0.5);
+                    if (!changed) {
+                        isGrabbing = !isGrabbing;
+                        changed = true;
+                    }
+                } else {
+                    changed = false;
                 }
+                Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
                 
                 telemetry.addData("servo", isGrabbing);
                 telemetry.update();
