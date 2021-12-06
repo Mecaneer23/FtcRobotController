@@ -174,31 +174,23 @@ public class AutoBase {
     }
 
     private static void setTargetPositionsNW(int distance) {
-        left_front.setTargetPosition(0);
         right_front.setTargetPosition(distance);
         left_back.setTargetPosition(distance);
-        right_back.setTargetPosition(0);
     }
 
     private static void setTargetPositionsNE(int distance) {
         left_front.setTargetPosition(distance);
-        right_front.setTargetPosition(0);
-        left_back.setTargetPosition(0);
         right_back.setTargetPosition(distance);
     }
 
     private static void setTargetPositionsSW(int distance) {
         left_front.setTargetPosition(-distance);
-        right_front.setTargetPosition(0);
-        left_back.setTargetPosition(0);
         right_back.setTargetPosition(-distance);
     }
 
     private static void setTargetPositionsSE(int distance) {
-        left_front.setTargetPosition(0);
         right_front.setTargetPosition(-distance);
         left_back.setTargetPosition(-distance);
-        right_back.setTargetPosition(0);
     }
 
     private static void setTargetPositionsTurnLeft(int distance) {
@@ -252,31 +244,23 @@ public class AutoBase {
     }
 
     private static void goNW(double MotorPower) {
-        left_front.setPower(0);
         right_front.setPower(MotorPower);
         left_back.setPower(MotorPower);
-        right_back.setPower(0);
     }
 
     private static void goNE(double MotorPower) {
         left_front.setPower(MotorPower);
-        right_front.setPower(0);
-        left_back.setPower(0);
         right_back.setPower(MotorPower);
     }
 
     private static void goSW(double MotorPower) {
         left_front.setPower(-MotorPower);
-        right_front.setPower(0);
-        left_back.setPower(0);
         right_back.setPower(-MotorPower);
     }
 
     private static void goSE(double MotorPower) {
-        left_front.setPower(0);
         right_front.setPower(-MotorPower);
         left_back.setPower(-MotorPower);
-        right_back.setPower(0);
     }
 
     private static void goTurnLeft(double MotorPower) {
