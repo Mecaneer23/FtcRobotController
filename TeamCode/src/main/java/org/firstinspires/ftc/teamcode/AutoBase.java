@@ -298,6 +298,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void driveForward(int distanceIN, double...MotorPower) {
@@ -321,6 +322,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void strafeLeft(int distanceIN, double...MotorPower) {
@@ -344,6 +346,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void strafeRight(int distanceIN, double...MotorPower) {
@@ -367,6 +370,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void strafeNW(int distanceIN, double...MotorPower) {
@@ -390,6 +394,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void strafeNE(int distanceIN, double...MotorPower) {
@@ -413,6 +418,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void strafeSW(int distanceIN, double...MotorPower) {
@@ -436,6 +442,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void strafeSE(int distanceIN, double...MotorPower) {
@@ -459,6 +466,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void turnLeft(int degrees, double...MotorPower) {
@@ -483,6 +491,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 
     public void turnRight(int degrees, double...MotorPower) {
@@ -507,6 +516,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
+        sleep(100);
     }
 }
 
