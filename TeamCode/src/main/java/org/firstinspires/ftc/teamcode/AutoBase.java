@@ -80,7 +80,9 @@ public class AutoBase {
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        left_front.setDirection(DcMotor.Direction.FORWARD);
         right_front.setDirection(DcMotor.Direction.REVERSE);
+        left_back.setDirection(DcMotor.Direction.FORWARD);
         right_back.setDirection(DcMotor.Direction.REVERSE);
 
         this.telemetry = telemetry;
@@ -285,7 +287,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsForward((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsForward((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goForward(Motor_Power);
         while (
@@ -298,7 +300,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void driveForward(int distanceIN, double...MotorPower) {
@@ -309,7 +311,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goBackward(Motor_Power);
         while (
@@ -322,7 +324,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void strafeLeft(int distanceIN, double...MotorPower) {
@@ -333,7 +335,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsLeft((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsLeft((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goLeft(Motor_Power);
         while (
@@ -346,7 +348,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void strafeRight(int distanceIN, double...MotorPower) {
@@ -357,7 +359,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsRight((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsRight((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goRight(Motor_Power);
         while (
@@ -370,7 +372,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void strafeNW(int distanceIN, double...MotorPower) {
@@ -381,7 +383,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsNW((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsNW((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goNW(Motor_Power);
         while (
@@ -394,7 +396,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void strafeNE(int distanceIN, double...MotorPower) {
@@ -405,7 +407,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsNE((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsNE((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goNE(Motor_Power);
         while (
@@ -418,7 +420,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void strafeSW(int distanceIN, double...MotorPower) {
@@ -429,7 +431,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsSW((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsSW((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goSW(Motor_Power);
         while (
@@ -442,7 +444,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void strafeSE(int distanceIN, double...MotorPower) {
@@ -453,7 +455,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsSE((int) Math.round(PULSES_PER_IN));
+        setTargetPositionsSE((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
         goSE(Motor_Power);
         while (
@@ -466,7 +468,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void turnLeft(int degrees, double...MotorPower) {
@@ -491,7 +493,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 
     public void turnRight(int degrees, double...MotorPower) {
@@ -516,7 +518,7 @@ public class AutoBase {
         }
         stopDriving();
         setRunUsingEncoders();
-        sleep(100);
+        // sleep(100);
     }
 }
 
