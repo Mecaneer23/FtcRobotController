@@ -17,7 +17,7 @@ public class ParkInDepot extends LinearOpMode {
         CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
         CarouselSpinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        AutoBaseDefaultArgs auto = new AutoBaseDefaultArgs();
+        AutoBase auto = new AutoBase();
         auto.InitAuto(
             hardwareMap,
             "frontLeft",
