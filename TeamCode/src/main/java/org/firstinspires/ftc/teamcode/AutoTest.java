@@ -32,7 +32,7 @@ public class AutoTest extends LinearOpMode {
         );
         waitForStart();
         if (opModeIsActive()) {
-            auto.driveForward(60);
+            auto.driveForward(24);
         }
     }
 }

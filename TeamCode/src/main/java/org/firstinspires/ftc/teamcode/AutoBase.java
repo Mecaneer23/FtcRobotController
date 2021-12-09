@@ -471,6 +471,14 @@ public class AutoBase {
         // sleep(100);
     }
 
+    public void turnLeft() {
+        turnLeft(90);
+    }
+
+    public void turnRight() {
+        turnRight(90);
+    }
+
     public void turnLeft(int degrees, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
@@ -478,9 +486,9 @@ public class AutoBase {
         } else {
             Motor_Power = TURN_SPEED;
         }
-        int hypotenuse = (int) Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2));
+        int hypotenuse = (int) (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2)));
         resetEncoders();
-        setTargetPositionsTurnLeft((hypotenuse / 90) * degrees);
+        setTargetPositionsTurnLeft((int) ((hypotenuse / 90) * degrees));
         setRunToPosition();
         goTurnLeft(Motor_Power);
         while (
@@ -503,9 +511,9 @@ public class AutoBase {
         } else {
             Motor_Power = TURN_SPEED;
         }
-        int hypotenuse = (int) Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2));
+        int hypotenuse = (int) (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2)));
         resetEncoders();
-        setTargetPositionsTurnRight((hypotenuse / 90) * degrees);
+        setTargetPositionsTurnRight((int) ((hypotenuse / 90) * degrees));
         setRunToPosition();
         goTurnRight(Motor_Power);
         while (
