@@ -514,6 +514,11 @@ public class AutoBase {
         resetEncoders();
         setTargetPositionsTurnRight((int) ((hypotenuse / 90) * degrees));
         setRunToPosition();
+        telemetry.addData("left front", left_front.getCurrentPosition());
+        telemetry.addData("left back", left_back.getCurrentPosition());
+        telemetry.addData("right front", right_front.getCurrentPosition());
+        telemetry.addData("right back", right_back.getCurrentPosition());
+        telemetry.update();
         goTurnRight(Motor_Power);
         while (
             left_front.isBusy() &&
