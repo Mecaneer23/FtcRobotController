@@ -209,7 +209,6 @@ public class AutoBase {
         right_back.setTargetPosition(-distance);
     }
 
-
     private static void stopDriving() {
         left_front.setPower(0);
         right_front.setPower(0);
