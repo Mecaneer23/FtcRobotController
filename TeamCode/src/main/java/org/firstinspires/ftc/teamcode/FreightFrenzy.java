@@ -87,11 +87,20 @@ public class FreightFrenzy extends LinearOpMode {
                 bl = y + x + clockwise;
                 br = y - x - clockwise;
                 
+                // 0.5 speed
                 if (gamepad1.right_bumper) {
                     fl /= 2;
                     fr /= 2;
                     bl /= 2;
                     br /= 2;
+                } 
+
+                // 0.25 speed
+                if (gamepad1.left_bumper) {
+                    fl /= 4;
+                    fr /= 4;
+                    bl /= 4;
+                    br /= 4;
                 } 
                     
                 frontLeft.setPower(fl);
