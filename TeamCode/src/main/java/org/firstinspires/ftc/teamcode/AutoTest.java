@@ -25,8 +25,8 @@ public class AutoTest extends LinearOpMode {
             "backLeft",
             "backRight",
             telemetry,
-            (double) 17, //tbd
-            (double) 13, //tbd
+            (double) 17,
+            (double) 13,
             (double) 0.5,
             (double) 0.5
         );
