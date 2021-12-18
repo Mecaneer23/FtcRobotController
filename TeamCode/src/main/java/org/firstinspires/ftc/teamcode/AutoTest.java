@@ -14,7 +14,6 @@ public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         CarouselSpinner = hardwareMap.get(DcMotor.class, "CarouselSpinner");
-        CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
         CarouselSpinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         AutoBase auto = new AutoBase();
@@ -32,7 +31,19 @@ public class AutoTest extends LinearOpMode {
         );
         waitForStart();
         if (opModeIsActive()) {
-            auto.driveForward(24);
+            auto.driveForward(12);
+            sleep(100);
+            auto.driveBackward(12);
+            sleep(100);
+            auto.strafeLeft(12);
+            sleep(100);
+            auto.strafeRight(12);
+//            auto.strafeNW(12);
+//            auto.strafeNE(12);
+//            auto.strafeSW(12);
+//            auto.strafeSE(12);
+//            auto.turnLeft(90);
+//            auto.turnRight(90);
         }
     }
 }

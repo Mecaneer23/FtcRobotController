@@ -286,9 +286,9 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsForward((int) Math.round(PULSES_PER_IN)*distanceIN);
+        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
-        goForward(Motor_Power);
+        goBackward(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -310,9 +310,9 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN)*distanceIN);
+        setTargetPositionsForward((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
-        goBackward(Motor_Power);
+        goForward(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
