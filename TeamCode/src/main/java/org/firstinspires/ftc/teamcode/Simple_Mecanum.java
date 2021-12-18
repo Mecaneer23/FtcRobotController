@@ -36,8 +36,8 @@ public class Simple_Mecanum extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
         if (opModeIsActive()) {
@@ -73,6 +73,13 @@ public class Simple_Mecanum extends LinearOpMode {
                     fr /= 2;
                     bl /= 2;
                     br /= 2;
+                } 
+                
+                if (gamepad1.left_bumper) {
+                    fl /= 4;
+                    fr /= 4;
+                    bl /= 4;
+                    br /= 4;
                 } 
                     
                 frontLeft.setPower(fl);

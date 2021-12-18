@@ -119,17 +119,17 @@ public class AutoBase {
     }
 
     private static void setRunUsingEncoders() {
-        left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private static void setRunWithoutEncoders() {
-        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
+        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private static void setRunToPosition() {
@@ -140,25 +140,24 @@ public class AutoBase {
     }
 
     private static void resetEncoders() {
-        // method may be stopandreset, but I'm not sure
-        left_front.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        right_front.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        left_back.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        right_back.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     private static void setTargetPositionsForward(int distance) {
-        left_front.setTargetPosition(distance);
-        right_front.setTargetPosition(distance);
-        left_back.setTargetPosition(distance);
-        right_back.setTargetPosition(distance);
-    }
-
-    private static void setTargetPositionsBackward(int distance) {
         left_front.setTargetPosition(-distance);
         right_front.setTargetPosition(-distance);
         left_back.setTargetPosition(-distance);
         right_back.setTargetPosition(-distance);
+    }
+
+    private static void setTargetPositionsBackward(int distance) {
+        left_front.setTargetPosition(distance);
+        right_front.setTargetPosition(distance);
+        left_back.setTargetPosition(distance);
+        right_back.setTargetPosition(distance);
     }
 
     private static void setTargetPositionsLeft(int distance) {
@@ -217,17 +216,17 @@ public class AutoBase {
     }
 
     private static void goForward(double MotorPower) {
-        left_front.setPower(MotorPower);
-        right_front.setPower(MotorPower);
-        left_back.setPower(MotorPower);
-        right_back.setPower(MotorPower);
-    }
-
-    private static void goBackward(double MotorPower) {
         left_front.setPower(-MotorPower);
         right_front.setPower(-MotorPower);
         left_back.setPower(-MotorPower);
         right_back.setPower(-MotorPower);
+    }
+
+    private static void goBackward(double MotorPower) {
+        left_front.setPower(MotorPower);
+        right_front.setPower(MotorPower);
+        left_back.setPower(MotorPower);
+        right_back.setPower(MotorPower);
     }
 
     private static void goLeft(double MotorPower) {
