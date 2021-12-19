@@ -486,7 +486,7 @@ public class AutoBase {
         }
         resetEncoders();
         double hypotenuse = (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)));
-        setTargetPositionsTurnLeft((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN));
+        setTargetPositionsTurnLeft((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN)*2);
         setRunToPosition();
         goTurnLeft(Motor_Power);
         while (
@@ -511,7 +511,7 @@ public class AutoBase {
         }
         resetEncoders();
         double hypotenuse = (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)));
-        setTargetPositionsTurnRight((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN));
+        setTargetPositionsTurnRight((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN)*2);
         setRunToPosition();
         goTurnRight(Motor_Power);
         while (
