@@ -26,8 +26,8 @@ public class AutoTest extends LinearOpMode {
             telemetry,
             (double) 17,
             (double) 13,
-            (double) .75,
-            (double) 0.5
+            0.5,
+            0.5
         );
         waitForStart();
         if (opModeIsActive()) {
@@ -35,15 +35,22 @@ public class AutoTest extends LinearOpMode {
             sleep(100);
             auto.driveBackward(12);
             sleep(100);
-            auto.strafeLeft(12, .5);
+            auto.strafeLeft(12);
             sleep(100);
-            auto.strafeRight(12, 1);
-//            auto.strafeNW(12);
-//            auto.strafeSE(12);
-//            auto.strafeNE(12);
-//            auto.strafeSW(12);
-//            auto.turnLeft(90);
-//            auto.turnRight(90);
+            auto.strafeRight(12);
+            sleep(100);
+            auto.strafeNW(12);
+            sleep(100);
+            auto.strafeSE(12);
+            sleep(100);
+            auto.strafeNE(12);
+            sleep(100);
+            auto.strafeSW(12);
+            sleep(100);
+            auto.turnLeft(90);
+            sleep(100);
+            auto.turnRight(90);
+            sleep(100);
         }
     }
 }

@@ -32,8 +32,8 @@ public class AutoBase {
     static final ElapsedTime runtime = new ElapsedTime();
 
     // Drive speed constants
-    static double DRIVE_SPEED = 1.0;
-    static double TURN_SPEED = 1.0;
+    static double DRIVE_SPEED = 0.5;
+    static double TURN_SPEED = 0.5;
 
     // static final double HEADING_THRESHOLD = 1; // As tight as we can make it with an integer gyro
     // static final double P_TURN_COEFF = 0.1; // Larger is more responsive, but also less stable
@@ -276,8 +276,8 @@ public class AutoBase {
         left_back.setPower(MotorPower);
         right_back.setPower(-MotorPower);
     }
-
-    public void driveBackward(int distanceIN, double...MotorPower) {
+    
+    public void driveForward(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -285,9 +285,9 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN)*distanceIN);
+        setTargetPositionsForward((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
-        goBackward(Motor_Power);
+        goForward(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -301,7 +301,7 @@ public class AutoBase {
         // sleep(100);
     }
 
-    public void driveForward(int distanceIN, double...MotorPower) {
+    public void driveBackward(int distanceIN, double...MotorPower) {
         double Motor_Power;
         if (MotorPower.length == 1) {
             Motor_Power = MotorPower[0];
@@ -309,9 +309,9 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsForward((int) Math.round(PULSES_PER_IN)*distanceIN);
+        setTargetPositionsBackward((int) Math.round(PULSES_PER_IN)*distanceIN);
         setRunToPosition();
-        goForward(Motor_Power);
+        goBackward(Motor_Power);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -484,9 +484,9 @@ public class AutoBase {
         } else {
             Motor_Power = TURN_SPEED;
         }
-        int hypotenuse = (int) (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2)));
         resetEncoders();
-        setTargetPositionsTurnLeft((int) ((hypotenuse / 90) * degrees));
+        double hypotenuse = (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)));
+        setTargetPositionsTurnLeft((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN));
         setRunToPosition();
         goTurnLeft(Motor_Power);
         while (
@@ -509,9 +509,9 @@ public class AutoBase {
         } else {
             Motor_Power = TURN_SPEED;
         }
-        int hypotenuse = (int) (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2, 2) + Math.pow(ROBOT_WIDTH_IN / 2, 2)));
         resetEncoders();
-        setTargetPositionsTurnRight((int) ((hypotenuse / 90) * degrees));
+        double hypotenuse = (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)));
+        setTargetPositionsTurnRight((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN));
         setRunToPosition();
         goTurnRight(Motor_Power);
         while (
