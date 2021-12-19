@@ -52,21 +52,20 @@ public class Simple_Mecanum extends LinearOpMode {
 
                 if (gamepad1.dpad_up) {
                     y = (float) 1.0;
-                }
-                if (gamepad1.dpad_down) {
+                } else if (gamepad1.dpad_down) {
                     y = (float) -1.0;
                 }
+
                 if (gamepad1.dpad_right) {
                     x = (float) 1.0;
-                }
-                if (gamepad1.dpad_left) {
+                } else if (gamepad1.dpad_left) {
                     x = (float) -1.0;
                 }
 
-                fl = y - x - clockwise;
-                fr = y + x + clockwise;
-                bl = y + x - clockwise;
-                br = y - x + clockwise;
+                fl = y + x + clockwise;
+                fr = y - x - clockwise;
+                bl = y - x + clockwise;
+                br = y + x - clockwise;
                 
                 if (gamepad1.right_bumper) {
                     fl /= 2;

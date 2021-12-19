@@ -82,10 +82,10 @@ public class FreightFrenzy extends LinearOpMode {
                     x = (float) - 1.0;
                 }
 
-                fl = y - x + clockwise;
-                fr = y + x - clockwise;
-                bl = y + x + clockwise;
-                br = y - x - clockwise;
+                fl = - y - x + clockwise;
+                fr = - y + x - clockwise;
+                bl = - y + x + clockwise;
+                br = - y - x - clockwise;
                 
                 // 0.5 speed
                 if (gamepad1.right_bumper) {
