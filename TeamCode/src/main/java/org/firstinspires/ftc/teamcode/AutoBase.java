@@ -80,10 +80,10 @@ public class AutoBase {
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        left_front.setDirection(DcMotor.Direction.FORWARD);
-        right_front.setDirection(DcMotor.Direction.REVERSE);
-        left_back.setDirection(DcMotor.Direction.FORWARD);
-        right_back.setDirection(DcMotor.Direction.REVERSE);
+        left_front.setDirection(DcMotor.Direction.REVERSE);
+        right_front.setDirection(DcMotor.Direction.FORWARD);
+        left_back.setDirection(DcMotor.Direction.REVERSE);
+        right_back.setDirection(DcMotor.Direction.FORWARD);
 
         this.telemetry = telemetry;
 
@@ -147,17 +147,17 @@ public class AutoBase {
     }
 
     private static void setTargetPositionsForward(int distance) {
-        left_front.setTargetPosition(-distance);
-        right_front.setTargetPosition(-distance);
-        left_back.setTargetPosition(-distance);
-        right_back.setTargetPosition(-distance);
-    }
-
-    private static void setTargetPositionsBackward(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(distance);
         left_back.setTargetPosition(distance);
         right_back.setTargetPosition(distance);
+    }
+
+    private static void setTargetPositionsBackward(int distance) {
+        left_front.setTargetPosition(-distance);
+        right_front.setTargetPosition(-distance);
+        left_back.setTargetPosition(-distance);
+        right_back.setTargetPosition(-distance);
     }
 
     private static void setTargetPositionsLeft(int distance) {
