@@ -333,7 +333,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsLeft((int) Math.round(PULSES_PER_IN)*distanceIN);
+        setTargetPositionsLeft((int) Math.round(PULSES_PER_IN*distanceIN*1.13));
         setRunToPosition();
         goLeft(Motor_Power);
         while (
@@ -357,7 +357,7 @@ public class AutoBase {
             Motor_Power = DRIVE_SPEED;
         }
         resetEncoders();
-        setTargetPositionsRight((int) Math.round(PULSES_PER_IN)*distanceIN);
+        setTargetPositionsRight((int) Math.round(PULSES_PER_IN*distanceIN*1.13));
         setRunToPosition();
         goRight(Motor_Power);
         while (

@@ -31,26 +31,26 @@ public class AutoTest extends LinearOpMode {
         );
         waitForStart();
         if (opModeIsActive()) {
-            auto.driveForward(12);
+//            auto.driveForward(12);
+//            sleep(100);
+//            auto.driveBackward(12);
+//            sleep(100);
+            auto.strafeLeft(24);
             sleep(100);
-            auto.driveBackward(12);
-            sleep(100);
-            auto.strafeLeft(12);
-            sleep(100);
-            auto.strafeRight(12);
-            sleep(100);
-            auto.strafeNW(12);
-            sleep(100);
-            auto.strafeSE(12);
-            sleep(100);
-            auto.strafeNE(12);
-            sleep(100);
-            auto.strafeSW(12);
-            sleep(100);
-            auto.turnLeft(90);
-            sleep(100);
-            auto.turnRight(90);
-            sleep(100);
+//            auto.strafeRight(24);
+//            sleep(100);
+//            auto.strafeNW(12);
+//            sleep(100);
+//            auto.strafeSE(12);
+//            sleep(100);
+//            auto.strafeNE(12);
+//            sleep(100);
+//            auto.strafeSW(12);
+//            sleep(100);
+//            auto.turnLeft(90);
+//            sleep(100);
+//            auto.turnRight(90);
+//            sleep(100);
         }
     }
 }
