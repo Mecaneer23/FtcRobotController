@@ -30,6 +30,7 @@ public class Simple_Mecanum extends LinearOpMode {
         double fr;
         double bl;
         double br;
+        int speed = 1;
 	    
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
@@ -62,24 +63,29 @@ public class Simple_Mecanum extends LinearOpMode {
                     x = (float) -1.0;
                 }
 
+                if (gamepad1.back) {
+                    clockwise = (float) -1.0;
+                } else if (gamepad1.guide) {
+                    clockwise = (float) 1.0;
+                }
+
                 fl = y + x + clockwise;
                 fr = y - x - clockwise;
                 bl = y - x + clockwise;
                 br = y + x - clockwise;
                 
                 if (gamepad1.right_bumper) {
-                    fl /= 2;
-                    fr /= 2;
-                    bl /= 2;
-                    br /= 2;
-                } 
+                    speed = 2;
+                } else if (gamepad1.left_bumper) {
+                    speed = 4;
+                } else {
+                    speed = 1;
+                }
                 
-                if (gamepad1.left_bumper) {
-                    fl /= 4;
-                    fr /= 4;
-                    bl /= 4;
-                    br /= 4;
-                } 
+                fl /= speed;
+                fr /= speed;
+                bl /= speed;
+                br /= speed; 
                     
                 frontLeft.setPower(fl);
                 frontRight.setPower(fr);
