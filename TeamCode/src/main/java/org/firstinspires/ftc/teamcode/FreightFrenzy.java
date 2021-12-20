@@ -124,10 +124,10 @@ public class FreightFrenzy extends LinearOpMode {
                 if (gamepad1.x) {
                     if (!changed) {
                         isGrabbing = !isGrabbing;
-                            changed = true;
+                        changed = true;
                     }
                 } else {
-                       changed = false;
+                    changed = false;
                 }
                 Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
                 
