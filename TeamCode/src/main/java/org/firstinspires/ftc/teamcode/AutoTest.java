@@ -31,7 +31,7 @@ public class AutoTest extends LinearOpMode {
         );
         waitForStart();
         if (opModeIsActive()) {
-            auto.driveForward(48);
+            auto.driveForward(36);
             auto.turnLeft(90);
             auto.strafeLeft(36);
             auto.driveBackward(24);
