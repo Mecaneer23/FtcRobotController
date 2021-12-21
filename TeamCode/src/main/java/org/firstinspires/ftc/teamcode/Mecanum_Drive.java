@@ -108,12 +108,20 @@ public class Mecanum_Drive extends LinearOpMode {
                 if (gamepad1.left_stick_button) {
                     if (gamepad1.y) {
                         turnHelper(0, 45);
+                    } else if (gamepad1.b) {
+                        turnHelper(0, 120);
+                    } else if (gamepad1.a) {
+                        turnHelper(0, 180);
                     } else {
                         turnHelper(0, 90);
                     }
                 } else if (gamepad1.right_stick_button) {
                     if (gamepad1.y) {
                         turnHelper(1, 45);
+                    } else if (gamepad1.b) {
+                        turnHelper(1, 120);
+                    } else if (gamepad1.a) {
+                        turnHelper(1, 180);
                     } else {
                         turnHelper(1, 90);
                     }
