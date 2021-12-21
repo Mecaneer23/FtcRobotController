@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
-public class Simple_Mecanum extends LinearOpMode {
+public class Mecanum_Drive extends LinearOpMode {
 
     private static final double TETRIX_TICKS_PER_MOTOR_REV = 1440;
     private static final double ANDYMARK_TICKS_PER_MOTOR_REV = 1120;
