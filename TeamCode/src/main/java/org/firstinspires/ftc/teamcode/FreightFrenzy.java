@@ -1,12 +1,3 @@
-/*
-Control Scheme:
-  Gamepad 1 - robot locomotion:
-    left stick - xy position of robot
-    right stick - rotation of robot
-    right bumper 1/2 speed slowmode
-    dpad - 1.0 power in any given direction
-*/
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -76,6 +67,23 @@ public class FreightFrenzy extends LinearOpMode {
             CarouselSpinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             ArmRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+            telemetry.addData(`
+              Control Scheme:
+                Gamepad 1 - robot locomotion:
+                  left stick - xy position of robot
+                  right stick - rotation of robot
+                  right bumper - 1/2 speed slowmode
+                  left bumper - 1/4 speed slowmode
+                  dpad - 1.0 power in any given direction
+                  click stick - rotate that direction
+                    none - 90
+                    y - 45
+                    b - 120
+                    a - 180
+                  back - turn left
+                  guide - turn right
+            `);
+          
             while (opModeIsActive()) {
                 x = gamepad1.left_stick_x;
                 y = -gamepad1.left_stick_y;
