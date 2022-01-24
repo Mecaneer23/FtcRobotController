@@ -157,7 +157,7 @@ public class FreightFrenzy extends LinearOpMode {
                     CarouselSpinner.setPower((float)0);                  
                 }
                 
-                ArmRotation.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+                ArmRotation.setPower(gamepad1.left_trigger - gamepad1.right_trigger);
 
                 if (gamepad1.x) {
                     if (!changed) {
