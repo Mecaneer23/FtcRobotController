@@ -53,6 +53,7 @@ public class FreightFrenzy extends LinearOpMode {
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
+        ArmRotation.setDirection(DcMotor.Direction.REVERSE);
         
         Grabber.setDirection(Servo.Direction.REVERSE);
         
@@ -157,7 +158,7 @@ public class FreightFrenzy extends LinearOpMode {
                     CarouselSpinner.setPower((float)0);                  
                 }
                 
-                ArmRotation.setPower(gamepad1.left_trigger - gamepad1.right_trigger);
+                ArmRotation.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
 
                 if (gamepad1.x) {
                     if (!changed) {
