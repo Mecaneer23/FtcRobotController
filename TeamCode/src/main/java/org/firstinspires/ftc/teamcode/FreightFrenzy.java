@@ -55,7 +55,7 @@ public class FreightFrenzy extends LinearOpMode {
         
         Grabber.setDirection(Servo.Direction.REVERSE);
         
-        Grabber.setPosition((double) 1.0);
+        Grabber.setPosition((double) 0.9);
         
         waitForStart();
         if (opModeIsActive()) {
@@ -166,7 +166,7 @@ public class FreightFrenzy extends LinearOpMode {
                 } else {
                     changed = false;
                 }
-                Grabber.setPosition(isGrabbing ? (double) 1.0 : (double) 0.5);
+                Grabber.setPosition(isGrabbing ? (double) 0.9 : (double) 0.5);
                 
                 telemetry.update();
             }
