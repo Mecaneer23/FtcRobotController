@@ -39,7 +39,7 @@ public class FreightFrenzy extends LinearOpMode {
         boolean changed = false;
         boolean slowmodeChanged = false;
         boolean shouldSlowmode = false;
-        
+
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
@@ -47,16 +47,16 @@ public class FreightFrenzy extends LinearOpMode {
         CarouselSpinner = hardwareMap.get(DcMotor.class, "CarouselSpinner");
         ArmRotation = hardwareMap.get(DcMotor.class, "ArmRotation");
         Grabber = hardwareMap.get(Servo.class, "Grabber");
-        
+
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         CarouselSpinner.setDirection(DcMotor.Direction.REVERSE);
         ArmRotation.setDirection(DcMotor.Direction.REVERSE);
-        
+
         Grabber.setDirection(Servo.Direction.REVERSE);
-        
+
         Grabber.setPosition((double) 0.9);
-        
+
         waitForStart();
         if (opModeIsActive()) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -66,8 +66,9 @@ public class FreightFrenzy extends LinearOpMode {
             CarouselSpinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             ArmRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            telemetry.addData("Control Scheme", "\nleft stick - xy position of robot\nright stick - rotation of robot\nright bumper - 1/2 speed slowmode\nleft bumper - 1/4 speed slowmode\ndpad - 1.0 power in any given direction\nclick stick - rotate that direction\n\tnone - 90\n\ty - 45\n\tb - 120\n\ta - 180\nback - turn left\nguide - turn right");
-          
+            telemetry.addData("Control Scheme",
+                    "\nleft stick - xy position of robot\nright stick - rotation of robot\nright bumper - 1/2 speed slowmode\nleft bumper - 1/4 speed slowmode\ndpad - 1.0 power in any given direction\nclick stick - rotate that direction\n\tnone - 90\n\ty - 45\n\tb - 120\n\ta - 180\nback - turn left\nguide - turn right");
+
             while (opModeIsActive()) {
                 x = gamepad1.left_stick_x;
                 y = -gamepad1.left_stick_y;
@@ -95,7 +96,7 @@ public class FreightFrenzy extends LinearOpMode {
                 fr = y - x - clockwise;
                 bl = y - x + clockwise;
                 br = y + x - clockwise;
-                
+
                 if (gamepad1.right_bumper) {
                     speed = 2;
                 } else if (gamepad1.left_bumper) {
@@ -115,7 +116,7 @@ public class FreightFrenzy extends LinearOpMode {
                 if (shouldSlowmode) {
                     speed = 2;
                 }
-                
+
                 if (gamepad1.left_stick_button) {
                     if (gamepad1.y) {
                         turnHelper(0, 45);
@@ -137,25 +138,25 @@ public class FreightFrenzy extends LinearOpMode {
                         turnHelper(1, 90);
                     }
                 }
-                
+
                 fl /= speed;
                 fr /= speed;
                 bl /= speed;
-                br /= speed; 
-                    
+                br /= speed;
+
                 frontLeft.setPower(fl);
                 frontRight.setPower(fr);
                 backLeft.setPower(bl);
                 backRight.setPower(br);
 
                 if (gamepad1.a) {
-                    CarouselSpinner.setPower((float)0.35);
+                    CarouselSpinner.setPower((float) 0.35);
                 } else if (gamepad1.b) {
-                    CarouselSpinner.setPower((float)-0.35);
+                    CarouselSpinner.setPower((float) -0.35);
                 } else {
-                    CarouselSpinner.setPower((float)0);                  
+                    CarouselSpinner.setPower((float) 0);
                 }
-                
+
                 ArmRotation.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
 
                 if (gamepad1.x) {
@@ -167,7 +168,7 @@ public class FreightFrenzy extends LinearOpMode {
                     changed = false;
                 }
                 Grabber.setPosition(isGrabbing ? (double) 0.9 : (double) 0.5);
-                
+
                 telemetry.update();
             }
         }
@@ -182,7 +183,8 @@ public class FreightFrenzy extends LinearOpMode {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        int distance = (int) ((Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)) / 90.0) * degrees * PULSES_PER_IN)*2;
+        int distance = (int) ((Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0))
+                / 90.0) * degrees * PULSES_PER_IN) * 2;
         if (direction == 0) { // left
             frontLeft.setTargetPosition(-distance);
             frontRight.setTargetPosition(distance);
@@ -209,13 +211,11 @@ public class FreightFrenzy extends LinearOpMode {
             backLeft.setPower((double) 1);
             backRight.setPower((double) -1);
         }
-        
-        while (
-            frontLeft.isBusy() &&
-            frontRight.isBusy() &&
-            backLeft.isBusy() &&
-            backRight.isBusy()
-        ) {
+
+        while (frontLeft.isBusy() &&
+                frontRight.isBusy() &&
+                backLeft.isBusy() &&
+                backRight.isBusy()) {
             // waiting for target position to be reached
         }
         frontLeft.setPower(0);
