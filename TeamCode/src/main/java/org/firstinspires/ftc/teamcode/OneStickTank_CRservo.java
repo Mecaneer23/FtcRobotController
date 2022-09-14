@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp
-public class OneStickTank extends LinearOpMode {
+public class OneStickTank_CRservo extends LinearOpMode {
 
     private CRServo backLeft;
     private CRServo backRight;
