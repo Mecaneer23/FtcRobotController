@@ -23,6 +23,7 @@ public class DozerOneStick extends LinearOpMode {
         int speed = 1;
         boolean slowmodeChanged = false;
         boolean shouldSlowmode = false;
+        double plowPos = 0.1;
 
         backLeft = hardwareMap.get(CRServo.class, "backLeft");
         backRight = hardwareMap.get(CRServo.class, "backRight");
@@ -33,9 +34,9 @@ public class DozerOneStick extends LinearOpMode {
         backLeft.setDirection(CRServo.Direction.REVERSE);
         plowLeft.setDirection(Servo.Direction.REVERSE);
 
-        eyes.setPosition((double) 0.5);
-        plowLeft.setPosition((double) 0.1);
-        plowRight.setPosition((double) 0.1);
+        eyes.setPosition(0.5);
+        plowLeft.setPosition(plowPos);
+        plowRight.setPosition(plowPos);
 
         waitForStart();
         if (opModeIsActive()) {
@@ -90,21 +91,27 @@ public class DozerOneStick extends LinearOpMode {
                 backLeft.setPower(bl);
                 backRight.setPower(br);
 
-                if (gamepad1.x) {
-                    eyes.setPosition(0);
-                    sleep(500);
-                    eyes.setPosition((double) 1.0);
-                    sleep(500);
-                    eyes.setPosition((double) 0.5);
+                if (gamepad1.right_stick_x != 0) {
+                    if (eyes.getPosition() < 0.2) {
+                        eyes.setPosition((double) 0.2);
+                    } else if (eyes.getPosition() > 0.8) {
+                        eyes.setPosition((double) 0.8);
+                    } else {
+                        eyes.setPosition(eyes.getPosition() + 0.01 * gamepad1.right_stick_x);
+                        sleep(8);
+                    }
                 }
 
-                if (gamepad1.y) {
-                    plowLeft.setPosition((double) 0.9);
-                    plowRight.setPosition((double) 0.9);
-                } else if (gamepad1.a) {
-                    plowLeft.setPosition((double) 0.1);
-                    plowRight.setPosition((double) 0.1);
+                if (gamepad1.right_stick_y != 0) {
+                    if (plowPos > 0.6) {
+                        plowPos = 0.6;
+                    } else {
+                        plowPos += 0.01 * -gamepad1.right_stick_y;
+                        sleep(8);
+                    }
                 }
+                plowLeft.setPosition(plowPos);
+                plowRight.setPosition(plowPos);
 
                 telemetry.update();
             }
