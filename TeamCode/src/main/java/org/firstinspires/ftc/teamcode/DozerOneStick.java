@@ -16,8 +16,8 @@ public class DozerOneStick extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        float y;
-        float clockwise;
+        double y;
+        double clockwise;
         double bl;
         double br;
         int speed = 1;
@@ -41,25 +41,19 @@ public class DozerOneStick extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                clockwise = gamepad1.left_stick_x;
-                y = -gamepad1.left_stick_y;
+                clockwise = (double) gamepad1.left_stick_x;
+                y = (double) -gamepad1.left_stick_y;
 
                 if (gamepad1.dpad_up) {
-                    y = (float) 1.0;
+                    y = 1.0;
                 } else if (gamepad1.dpad_down) {
-                    y = (float) -1.0;
+                    y = -1.0;
                 }
 
                 if (gamepad1.dpad_right) {
-                    clockwise = (float) 1.0;
+                    clockwise = 1.0;
                 } else if (gamepad1.dpad_left) {
-                    clockwise = (float) -1.0;
-                }
-
-                if (gamepad1.back) {
-                    clockwise = (float) -1.0;
-                } else if (gamepad1.guide) {
-                    clockwise = (float) 1.0;
+                    clockwise = -1.0;
                 }
 
                 bl = y + clockwise;
@@ -78,11 +72,8 @@ public class DozerOneStick extends LinearOpMode {
                     if (slowmodeChanged) {
                         slowmodeChanged = false;
                     } else {
-                        speed = 1;
+                        speed = shouldSlowmode ? 2 : 1;
                     }
-                }
-                if (shouldSlowmode) {
-                    speed = 2;
                 }
 
                 bl /= speed;
@@ -93,9 +84,9 @@ public class DozerOneStick extends LinearOpMode {
 
                 if (gamepad1.right_stick_x != 0) {
                     if (eyes.getPosition() < 0.2) {
-                        eyes.setPosition((double) 0.2);
+                        eyes.setPosition(0.2);
                     } else if (eyes.getPosition() > 0.8) {
-                        eyes.setPosition((double) 0.8);
+                        eyes.setPosition(0.8);
                     } else {
                         eyes.setPosition(eyes.getPosition() + 0.01 * gamepad1.right_stick_x);
                         sleep(8);
@@ -103,7 +94,9 @@ public class DozerOneStick extends LinearOpMode {
                 }
 
                 if (gamepad1.right_stick_y != 0) {
-                    if (plowPos > 0.6) {
+                    if (plowPos < 0) { // number tbd - see telemetry
+                        plowPos = 0; // whatever that number is
+                    } else if (plowPos > 0.6) {
                         plowPos = 0.6;
                     } else {
                         plowPos += 0.01 * -gamepad1.right_stick_y;
@@ -113,6 +106,7 @@ public class DozerOneStick extends LinearOpMode {
                 plowLeft.setPosition(plowPos);
                 plowRight.setPosition(plowPos);
 
+                telemetry.addData("Plow Position", plowPos); // remove this line when lower bound is known
                 telemetry.update();
             }
         }
