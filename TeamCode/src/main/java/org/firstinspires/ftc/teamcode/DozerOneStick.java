@@ -21,9 +21,11 @@ public class DozerOneStick extends LinearOpMode {
         double bl;
         double br;
         int speed = 1;
-        boolean slowmodeChanged = false;
         boolean shouldSlowmode = false;
+        boolean slowmodeChanged = false;
         double plowPos = 0.1;
+        boolean eyesOnTurn = true;
+        boolean eyesChanged = false;
 
         backLeft = hardwareMap.get(CRServo.class, "backLeft");
         backRight = hardwareMap.get(CRServo.class, "backRight");
@@ -68,12 +70,10 @@ public class DozerOneStick extends LinearOpMode {
                         shouldSlowmode = !shouldSlowmode;
                         slowmodeChanged = true;
                     }
+                } else if (slowmodeChanged) {
+                    slowmodeChanged = false;
                 } else {
-                    if (slowmodeChanged) {
-                        slowmodeChanged = false;
-                    } else {
-                        speed = shouldSlowmode ? 2 : 1;
-                    }
+                    speed = shouldSlowmode ? 2 : 1;
                 }
 
                 bl /= speed;
@@ -82,18 +82,27 @@ public class DozerOneStick extends LinearOpMode {
                 backLeft.setPower(bl);
                 backRight.setPower(br);
 
-                // if (gamepad1.right_stick_x != 0) {
-                //     if (eyes.getPosition() < 0.2) {
-                //         eyes.setPosition(0.2);
-                //     } else if (eyes.getPosition() > 0.8) {
-                //         eyes.setPosition(0.8);
-                //     } else {
-                //         eyes.setPosition(eyes.getPosition() + 0.01 * gamepad1.right_stick_x);
-                //         sleep(8);
-                //     }
-                // }
+                if (gamepad1.back) {
+                    if (!eyesChanged) {
+                        eyesOnTurn = !eyesOnTurn;
+                        eyesChanged = true;
+                    }
+                } else if (eyesChanged){
+                    eyesChanged = false;
+                }
 
-                eyes.setPosition(0.3 * gamepad1.left_stick_x + 0.5);
+                if (eyesOnTurn) {
+                    eyes.setPosition(0.3 * gamepad1.left_stick_x + 0.5);
+                } else if (gamepad1.right_stick_x != 0) {
+                    if (eyes.getPosition() < 0.2) {
+                        eyes.setPosition(0.2);
+                    } else if (eyes.getPosition() > 0.8) {
+                        eyes.setPosition(0.8);
+                    } else {
+                        eyes.setPosition(eyes.getPosition() + 0.01 * gamepad1.right_stick_x);
+                        sleep(8);
+                    }
+                }
 
                 if (gamepad1.right_stick_y != 0) {
                     if (plowPos < 0) { // number tbd - see telemetry
