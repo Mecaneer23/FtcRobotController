@@ -82,16 +82,18 @@ public class DozerOneStick extends LinearOpMode {
                 backLeft.setPower(bl);
                 backRight.setPower(br);
 
-                if (gamepad1.right_stick_x != 0) {
-                    if (eyes.getPosition() < 0.2) {
-                        eyes.setPosition(0.2);
-                    } else if (eyes.getPosition() > 0.8) {
-                        eyes.setPosition(0.8);
-                    } else {
-                        eyes.setPosition(eyes.getPosition() + 0.01 * gamepad1.right_stick_x);
-                        sleep(8);
-                    }
-                }
+                // if (gamepad1.right_stick_x != 0) {
+                //     if (eyes.getPosition() < 0.2) {
+                //         eyes.setPosition(0.2);
+                //     } else if (eyes.getPosition() > 0.8) {
+                //         eyes.setPosition(0.8);
+                //     } else {
+                //         eyes.setPosition(eyes.getPosition() + 0.01 * gamepad1.right_stick_x);
+                //         sleep(8);
+                //     }
+                // }
+
+                eyes.setPosition(0.3 * gamepad1.left_stick_x + 0.5);
 
                 if (gamepad1.right_stick_y != 0) {
                     if (plowPos < 0) { // number tbd - see telemetry
