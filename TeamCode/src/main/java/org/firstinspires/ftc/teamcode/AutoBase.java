@@ -125,31 +125,31 @@ public class AutoBase {
     }
 
     private void goNW(Object distance) {
-        left_front.setTargetPosition((int) 0);
+        left_front.setTargetPosition(0);
         right_front.setTargetPosition((int) distance);
         left_back.setTargetPosition((int) distance);
-        right_back.setTargetPosition((int) 0);
+        right_back.setTargetPosition(0);
     }
 
     private void goNE(Object distance) {
         left_front.setTargetPosition((int) distance);
-        right_front.setTargetPosition((int) 0);
-        left_back.setTargetPosition((int) 0);
+        right_front.setTargetPosition(0);
+        left_back.setTargetPosition(0);
         right_back.setTargetPosition((int) distance);
     }
 
     private void goSW(Object distance) {
         left_front.setTargetPosition(-(int) distance);
-        right_front.setTargetPosition((int) 0);
-        left_back.setTargetPosition((int) 0);
+        right_front.setTargetPosition(0);
+        left_back.setTargetPosition(0);
         right_back.setTargetPosition(-(int) distance);
     }
 
     private void goSE(Object distance) {
-        left_front.setTargetPosition((int) 0);
+        left_front.setTargetPosition(0);
         right_front.setTargetPosition(-(int) distance);
         left_back.setTargetPosition(-(int) distance);
-        right_back.setTargetPosition((int) 0);
+        right_back.setTargetPosition(0);
     }
 
     private void goTurnLeft(Object distance) {
