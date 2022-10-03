@@ -178,17 +178,11 @@ public class AutoBase {
         right_back.setPower(power);
     }
 
-    public void driveForward(double distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
+    private void drive(Function <int, void> direction, double distanceIN, double motorPower) {
         resetEncoders();
         setRunToPosition();
-        goForward((int) ((int) PULSES_PER_IN*distanceIN));
-        setMotors(Motor_Power);
+        direction.apply((int) (PULSES_PER_IN*distanceIN));
+        setMotors(motorPower);
         while (
             left_front.isBusy() &&
             right_front.isBusy() &&
@@ -202,230 +196,94 @@ public class AutoBase {
         sleep(DELAY_BETWEEN_METHODS);
     }
 
-    public void driveBackward(double distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goBackward((int) (PULSES_PER_IN*distanceIN));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void driveForward(double distanceIN) {
+        driveForward(distanceIN, DRIVE_SPEED);
     }
 
-    public void strafeLeft(int distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goLeft((int) Math.round(PULSES_PER_IN*distanceIN*STRAFE_MULTIPLIER));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void driveForward(double distanceIN, double motorPower) {
+        drive(goForward, distanceIN, motorPower);
     }
 
-    public void strafeRight(int distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goRight((int) Math.round(PULSES_PER_IN*distanceIN*STRAFE_MULTIPLIER));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void driveBackward(double distanceIN) {
+        driveBackward(distanceIN, DRIVE_SPEED);
     }
 
-    public void strafeNW(double distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goNW((int) (PULSES_PER_IN*distanceIN));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void driveBackward(double distanceIN, double motorPower) {
+        drive(goBackward, distanceIN, motorPower);
     }
 
-    public void strafeNE(double distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goNE((int) (PULSES_PER_IN*distanceIN));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void strafeLeft(int distanceIN) {
+        strafeLeft(distanceIN, DRIVE_SPEED);
     }
 
-    public void strafeSW(double distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goSW((int) (PULSES_PER_IN*distanceIN));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void strafeLeft(int distanceIN, double motorPower) {
+        drive(goLeft, distanceIN, motorPower);
     }
 
-    public void strafeSE(double distanceIN, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = DRIVE_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        goSE((int) (PULSES_PER_IN*distanceIN));
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void strafeRight(int distanceIN) {
+        strafeRight(distanceIN, DRIVE_SPEED);
     }
+
+    public void strafeRight(int distanceIN, double motorPower) {
+        drive(goRight, distanceIN, motorPower);
+    }
+
+    public void strafeNW(double distanceIN) {
+        strafeNW(distanceIN, DRIVE_SPEED);
+    }
+
+    public void strafeNW(double distanceIN, double motorPower) {
+        drive(goNW, distanceIN, motorPower);
+    }
+
+    public void strafeNE(double distanceIN) {
+        strafeNE(distanceIN, DRIVE_SPEED);
+    }
+
+    public void strafeNE(double distanceIN, double motorPower) {
+        drive(goNE, distanceIN, motorPower);
+    }
+
+    public void strafeSW(double distanceIN) {
+        strafeSW(distanceIN, DRIVE_SPEED);
+    }
+
+    public void strafeSW(double distanceIN, double motorPower) {
+        drive(goSW, distanceIN, motorPower);
+    }
+
+    public void strafeSE(double distanceIN) {
+        strafeSE(distanceIN, DRIVE_SPEED);
+    }
+
+    public void strafeSE(double distanceIN, double motorPower) {
+        drive(goSE, distanceIN, motorPower);
+    }
+
+    static double TURN_CONSTANT = ((Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0))) / 90.0) * 2.0;
 
     public void turnLeft() {
-        turnLeft(90);
+        turnLeft(90, TURN_SPEED);
+    }
+
+    public void turnLeft(int degrees) {
+        turnLeft(degrees, TURN_SPEED);
+    }
+
+    public void turnLeft(int degrees, double motorPower) {
+        drive(goTurnLeft, (int) (TURN_CONSTANT * degrees), motorPower);
     }
 
     public void turnRight() {
-        turnRight(90);
+        turnRight(90, TURN_SPEED);
     }
 
-    public void turnLeft(int degrees, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = TURN_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        double hypotenuse = (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)));
-        goTurnLeft((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN)*2);
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void turnRight(int degrees) {
+        turnRight(degrees, TURN_SPEED);
     }
 
-    public void turnRight(int degrees, double...MotorPower) {
-        double Motor_Power;
-        if (MotorPower.length == 1) {
-            Motor_Power = MotorPower[0];
-        } else {
-            Motor_Power = TURN_SPEED;
-        }
-        resetEncoders();
-        setRunToPosition();
-        double hypotenuse = (Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0)));
-        goTurnRight((int) ((hypotenuse / 90.0) * degrees * PULSES_PER_IN)*2);
-        setMotors(Motor_Power);
-        while (
-            left_front.isBusy() &&
-            right_front.isBusy() &&
-            left_back.isBusy() &&
-            right_back.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
+    public void turnRight(int degrees, double motorPower) {
+        drive(goTurnRight, (int) (TURN_CONSTANT * degrees), motorPower);
     }
 }
 
