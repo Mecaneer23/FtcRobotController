@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import java.util.concurrent.Callable;
-
 public class AutoBase {
     static DcMotor left_front, right_front, left_back, right_back;
 
