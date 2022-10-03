@@ -43,7 +43,7 @@ public class Mecanum_Drive extends LinearOpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
 
         AutoBase auto = new AutoBase(
-            this
+            this,
             hardwareMap,
             "frontLeft",
             "frontRight",
@@ -118,23 +118,23 @@ public class Mecanum_Drive extends LinearOpMode {
 
                 if (gamepad1.left_stick_button) {
                     if (gamepad1.y) {
-                        turnLeft(45);
+                        auto.turnLeft(45);
                     } else if (gamepad1.b) {
-                        turnLeft(120);
+                        auto.turnLeft(120);
                     } else if (gamepad1.a) {
-                        turnLeft(180);
+                        auto.turnLeft(180);
                     } else {
-                        turnLeft(90);
+                        auto.turnLeft(90);
                     }
                 } else if (gamepad1.right_stick_button) {
                     if (gamepad1.y) {
-                        turnRight(45);
+                        auto.turnRight(45);
                     } else if (gamepad1.b) {
-                        turnRight(120);
+                        auto.turnRight(120);
                     } else if (gamepad1.a) {
-                        turnRight(180);
+                        auto.turnRight(180);
                     } else {
-                        turnRight(90);
+                        auto.turnRight(90);
                     }
                 }
 
