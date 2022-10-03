@@ -103,67 +103,67 @@ public class AutoBase {
         right_back.setTargetPosition((int) distance);
     }
 
-    private void goBackward(int distance) {
-        left_front.setTargetPosition(-distance);
-        right_front.setTargetPosition(-distance);
-        left_back.setTargetPosition(-distance);
-        right_back.setTargetPosition(-distance);
+    private void goBackward(Object distance) {
+        left_front.setTargetPosition((int) -distance);
+        right_front.setTargetPosition((int) -distance);
+        left_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition((int) -distance);
     }
 
-    private void goLeft(int distance) {
-        left_front.setTargetPosition(-distance);
-        right_front.setTargetPosition(distance);
-        left_back.setTargetPosition(distance);
-        right_back.setTargetPosition(-distance);
+    private void goLeft(Object distance) {
+        left_front.setTargetPosition((int) -distance);
+        right_front.setTargetPosition((int) distance);
+        left_back.setTargetPosition((int) distance);
+        right_back.setTargetPosition((int) -distance);
     }
 
-    private void goRight(int distance) {
-        left_front.setTargetPosition(distance);
-        right_front.setTargetPosition(-distance);
-        left_back.setTargetPosition(-distance);
-        right_back.setTargetPosition(distance);
+    private void goRight(Object distance) {
+        left_front.setTargetPosition((int) distance);
+        right_front.setTargetPosition((int) -distance);
+        left_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition((int) distance);
     }
 
-    private void goNW(int distance) {
-        left_front.setTargetPosition(0);
-        right_front.setTargetPosition(distance);
-        left_back.setTargetPosition(distance);
-        right_back.setTargetPosition(0);
+    private void goNW(Object distance) {
+        left_front.setTargetPosition((int) 0);
+        right_front.setTargetPosition((int) distance);
+        left_back.setTargetPosition((int) distance);
+        right_back.setTargetPosition((int) 0);
     }
 
-    private void goNE(int distance) {
-        left_front.setTargetPosition(distance);
-        right_front.setTargetPosition(0);
-        left_back.setTargetPosition(0);
-        right_back.setTargetPosition(distance);
+    private void goNE(Object distance) {
+        left_front.setTargetPosition((int) distance);
+        right_front.setTargetPosition((int) 0);
+        left_back.setTargetPosition((int) 0);
+        right_back.setTargetPosition((int) distance);
     }
 
-    private void goSW(int distance) {
-        left_front.setTargetPosition(-distance);
-        right_front.setTargetPosition(0);
-        left_back.setTargetPosition(0);
-        right_back.setTargetPosition(-distance);
+    private void goSW(Object distance) {
+        left_front.setTargetPosition((int) -distance);
+        right_front.setTargetPosition((int) 0);
+        left_back.setTargetPosition((int) 0);
+        right_back.setTargetPosition((int) -distance);
     }
 
-    private void goSE(int distance) {
-        left_front.setTargetPosition(0);
-        right_front.setTargetPosition(-distance);
-        left_back.setTargetPosition(-distance);
-        right_back.setTargetPosition(0);
+    private void goSE(Object distance) {
+        left_front.setTargetPosition((int) 0);
+        right_front.setTargetPosition((int) -distance);
+        left_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition((int) 0);
     }
 
-    private void goTurnLeft(int distance) {
-        left_front.setTargetPosition(-distance);
-        right_front.setTargetPosition(distance);
-        left_back.setTargetPosition(-distance);
-        right_back.setTargetPosition(distance);
+    private void goTurnLeft(Object distance) {
+        left_front.setTargetPosition((int) -distance);
+        right_front.setTargetPosition((int) distance);
+        left_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition((int) distance);
     }
 
-    private void goTurnRight(int distance) {
-        left_front.setTargetPosition(distance);
-        right_front.setTargetPosition(-distance);
-        left_back.setTargetPosition(distance);
-        right_back.setTargetPosition(-distance);
+    private void goTurnRight(Object distance) {
+        left_front.setTargetPosition((int) distance);
+        right_front.setTargetPosition((int) -distance);
+        left_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition((int) -distance);
     }
 
     private static void stopDriving() {
@@ -215,7 +215,7 @@ public class AutoBase {
     }
 
     public void driveBackward(double distanceIN, double motorPower) {
-        drive(goBackward, distanceIN, motorPower);
+        drive(this::goBackward, distanceIN, motorPower);
     }
 
     public void strafeLeft(int distanceIN) {
@@ -223,7 +223,7 @@ public class AutoBase {
     }
 
     public void strafeLeft(int distanceIN, double motorPower) {
-        drive(goLeft, distanceIN, motorPower);
+        drive(this::goLeft, distanceIN, motorPower);
     }
 
     public void strafeRight(int distanceIN) {
@@ -231,7 +231,7 @@ public class AutoBase {
     }
 
     public void strafeRight(int distanceIN, double motorPower) {
-        drive(goRight, distanceIN, motorPower);
+        drive(this::goRight, distanceIN, motorPower);
     }
 
     public void strafeNW(double distanceIN) {
@@ -239,7 +239,7 @@ public class AutoBase {
     }
 
     public void strafeNW(double distanceIN, double motorPower) {
-        drive(goNW, distanceIN, motorPower);
+        drive(this::goNW, distanceIN, motorPower);
     }
 
     public void strafeNE(double distanceIN) {
@@ -247,7 +247,7 @@ public class AutoBase {
     }
 
     public void strafeNE(double distanceIN, double motorPower) {
-        drive(goNE, distanceIN, motorPower);
+        drive(this::goNE, distanceIN, motorPower);
     }
 
     public void strafeSW(double distanceIN) {
@@ -255,7 +255,7 @@ public class AutoBase {
     }
 
     public void strafeSW(double distanceIN, double motorPower) {
-        drive(goSW, distanceIN, motorPower);
+        drive(this::goSW, distanceIN, motorPower);
     }
 
     public void strafeSE(double distanceIN) {
@@ -263,7 +263,7 @@ public class AutoBase {
     }
 
     public void strafeSE(double distanceIN, double motorPower) {
-        drive(goSE, distanceIN, motorPower);
+        drive(this::goSE, distanceIN, motorPower);
     }
 
     static double TURN_CONSTANT = ((Math.sqrt(Math.pow(ROBOT_LENGTH_IN / 2.0, 2.0) + Math.pow(ROBOT_WIDTH_IN / 2.0, 2.0))) / 90.0) * 2.0;
@@ -277,7 +277,7 @@ public class AutoBase {
     }
 
     public void turnLeft(int degrees, double motorPower) {
-        drive(goTurnLeft, (int) (TURN_CONSTANT * degrees), motorPower);
+        drive(this::goTurnLeft, (int) (TURN_CONSTANT * degrees), motorPower);
     }
 
     public void turnRight() {
@@ -289,7 +289,7 @@ public class AutoBase {
     }
 
     public void turnRight(int degrees, double motorPower) {
-        drive(goTurnRight, (int) (TURN_CONSTANT * degrees), motorPower);
+        drive(this::goTurnRight, (int) (TURN_CONSTANT * degrees), motorPower);
     }
 }
 
