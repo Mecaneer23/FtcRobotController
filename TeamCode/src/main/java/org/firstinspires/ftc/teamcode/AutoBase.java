@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.eventloop.opmode.LinearOpMode;
 
 public class AutoBase {
     static DcMotor left_front, right_front, left_back, right_back;
 
     Telemetry telemetry;
-
-    static double DRIVE_SPEED = 0.5;
-    static double TURN_SPEED = 0.5;
+    LinearOpMode opMode;
 
     static final double TETRIX_TICKS_PER_MOTOR_REV = 1440;
     static final double ANDYMARK_TICKS_PER_MOTOR_REV = 1120;
@@ -19,26 +17,29 @@ public class AutoBase {
     static final double PULSES_PER_REVOLUTION = GOBILDA_TICKS_PER_MOTOR_REV;
     static final double WHEEL_DIAMETER_IN = 4;
     static final double PULSES_PER_IN = PULSES_PER_REVOLUTION / (WHEEL_DIAMETER_IN * 3.1415);
-    static double ROBOT_LENGTH_IN = 18;
-    static double ROBOT_WIDTH_IN = 18;
-    static double STRAFE_MULTIPLIER = 1.13;
+    static double DRIVE_SPEED, TURN_SPEED, ROBOT_LENGTH_IN, ROBOT_WIDTH_IN, STRAFE_MULTIPLIER, DELAY_BETWEEN_METHODS;
 
-    public void InitAuto(
-        HardwareMap hardwareMap,
-        String left_front_name,
-        String right_front_name,
-        String left_back_name,
-        String right_back_name,
-        Telemetry telemetry,
-        double...len_width_speed_turnSpeed_strafeMultiplier
+    public AutoBase(
+            LinearOpMode opMode,
+            HardwareMap hardwareMap,
+            String left_front_name,
+            String right_front_name,
+            String left_back_name,
+            String right_back_name,
+            Telemetry telemetry,
+            double driveSpeed, // 1.0
+            double turnSpeed, // 0.5
+            double len, // 18
+            double width, // 18
+            double strafeMultiplier, // 1.13
+            double delay // 100
     ) {
-        if (len_width_speed_turnSpeed_strafeMultiplier.length == 5) {
-            ROBOT_LENGTH_IN = ROBOT_LENGTH_IN;
-            ROBOT_WIDTH_IN = ROBOT_WIDTH_IN;
-            DRIVE_SPEED = DRIVE_SPEED;
-            TURN_SPEED = TURN_SPEED;
-            STRAFE_MULTIPLIER = STRAFE_MULTIPLIER;
-        }
+        ROBOT_LENGTH_IN = len;
+        ROBOT_WIDTH_IN = width;
+        DRIVE_SPEED = driveSpeed;
+        TURN_SPEED = turnSpeed;
+        STRAFE_MULTIPLIER = strafeMultiplier;
+        DELAY_BETWEEN_METHODS = delay;
 
         left_front = hardwareMap.get(DcMotor.class, left_front_name);
         right_front = hardwareMap.get(DcMotor.class, right_front_name);
@@ -56,11 +57,20 @@ public class AutoBase {
         right_back.setDirection(DcMotor.Direction.FORWARD);
 
         this.telemetry = telemetry;
+        this.opMode = opMode;
 
         left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    }
+    private void sleep(double milliseconds) {
+        opMode.sleep((long) milliseconds);
+    }
+
+    private void idle() {
+        opMode.idle();
     }
 
     private static void setRunToPosition() {
@@ -170,7 +180,7 @@ public class AutoBase {
         }
         resetEncoders();
         setRunToPosition();
-        goForward((int) PULSES_PER_IN*distanceIN);
+        goForward((int) ((int) PULSES_PER_IN*distanceIN));
         setMotors(Motor_Power);
         while (
             left_front.isBusy() &&
@@ -178,10 +188,10 @@ public class AutoBase {
             left_back.isBusy() &&
             right_back.isBusy()
         ) {
-            idle();
+            opMode.idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void driveBackward(double distanceIN, double...MotorPower) {
@@ -193,7 +203,7 @@ public class AutoBase {
         }
         resetEncoders();
         setRunToPosition();
-        goBackward((int) PULSES_PER_IN*distanceIN);
+        goBackward((int) (PULSES_PER_IN*distanceIN));
         setMotors(Motor_Power);
         while (
             left_front.isBusy() &&
@@ -204,7 +214,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void strafeLeft(int distanceIN, double...MotorPower) {
@@ -227,7 +237,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void strafeRight(int distanceIN, double...MotorPower) {
@@ -250,7 +260,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void strafeNW(double distanceIN, double...MotorPower) {
@@ -262,7 +272,7 @@ public class AutoBase {
         }
         resetEncoders();
         setRunToPosition();
-        goNW((int) PULSES_PER_IN*distanceIN);
+        goNW((int) (PULSES_PER_IN*distanceIN));
         setMotors(Motor_Power);
         while (
             left_front.isBusy() &&
@@ -273,7 +283,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void strafeNE(double distanceIN, double...MotorPower) {
@@ -285,7 +295,7 @@ public class AutoBase {
         }
         resetEncoders();
         setRunToPosition();
-        goNE((int) PULSES_PER_IN*distanceIN);
+        goNE((int) (PULSES_PER_IN*distanceIN));
         setMotors(Motor_Power);
         while (
             left_front.isBusy() &&
@@ -296,7 +306,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void strafeSW(double distanceIN, double...MotorPower) {
@@ -308,7 +318,7 @@ public class AutoBase {
         }
         resetEncoders();
         setRunToPosition();
-        goSW((int) PULSES_PER_IN*distanceIN);
+        goSW((int) (PULSES_PER_IN*distanceIN));
         setMotors(Motor_Power);
         while (
             left_front.isBusy() &&
@@ -319,7 +329,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void strafeSE(double distanceIN, double...MotorPower) {
@@ -331,7 +341,7 @@ public class AutoBase {
         }
         resetEncoders();
         setRunToPosition();
-        goSE((int) PULSES_PER_IN*distanceIN);
+        goSE((int) (PULSES_PER_IN*distanceIN));
         setMotors(Motor_Power);
         while (
             left_front.isBusy() &&
@@ -342,7 +352,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void turnLeft() {
@@ -374,7 +384,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 
     public void turnRight(int degrees, double...MotorPower) {
@@ -398,21 +408,27 @@ public class AutoBase {
             idle();
         }
         stopDriving();
-        sleep(100);
+        sleep(DELAY_BETWEEN_METHODS);
     }
 }
 
 /*
     // During init:
-    AutoBase auto = new AutoBase();
-    auto.InitAuto(
+    AutoBase auto = new AutoBase(
+        this,
         hardwareMap,
-        front_left,
-        front_right,
-        back_left,
-        back_right,
+        "frontLeft",
+        "frontRight",
+        "backLeft",
+        "backRight",
         telemetry,
-    )
+        1,
+        1,
+        18,
+        18,
+        1.13,
+        100
+    );
 
     // During run loop:
     auto.driveForward(12);

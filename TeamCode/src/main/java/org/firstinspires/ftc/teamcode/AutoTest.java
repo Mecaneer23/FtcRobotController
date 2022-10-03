@@ -16,18 +16,20 @@ public class AutoTest extends LinearOpMode {
         CarouselSpinner = hardwareMap.get(DcMotor.class, "CarouselSpinner");
         CarouselSpinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        AutoBase auto = new AutoBase();
-        auto.InitAuto(
+        AutoBase auto = new AutoBase(
+            this,
             hardwareMap,
             "frontLeft",
             "frontRight",
             "backLeft",
             "backRight",
             telemetry,
-            (double) 17,
-            (double) 13,
             1,
-            0.5
+            0.5,
+            17,
+            13,
+            1.13,
+            100
         );
         waitForStart();
         if (opModeIsActive()) {
