@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.concurrent.Callable;
+
 public class AutoBase {
     static DcMotor left_front, right_front, left_back, right_back;
 
@@ -94,70 +96,70 @@ public class AutoBase {
         right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    private static void goForward(int distance) {
-        left_front.setTargetPosition(distance);
-        right_front.setTargetPosition(distance);
-        left_back.setTargetPosition(distance);
-        right_back.setTargetPosition(distance);
+    private void goForward(Object distance) {
+        left_front.setTargetPosition((int) distance);
+        right_front.setTargetPosition((int) distance);
+        left_back.setTargetPosition((int) distance);
+        right_back.setTargetPosition((int) distance);
     }
 
-    private static void goBackward(int distance) {
+    private void goBackward(int distance) {
         left_front.setTargetPosition(-distance);
         right_front.setTargetPosition(-distance);
         left_back.setTargetPosition(-distance);
         right_back.setTargetPosition(-distance);
     }
 
-    private static void goLeft(int distance) {
+    private void goLeft(int distance) {
         left_front.setTargetPosition(-distance);
         right_front.setTargetPosition(distance);
         left_back.setTargetPosition(distance);
         right_back.setTargetPosition(-distance);
     }
 
-    private static void goRight(int distance) {
+    private void goRight(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(-distance);
         left_back.setTargetPosition(-distance);
         right_back.setTargetPosition(distance);
     }
 
-    private static void goNW(int distance) {
+    private void goNW(int distance) {
         left_front.setTargetPosition(0);
         right_front.setTargetPosition(distance);
         left_back.setTargetPosition(distance);
         right_back.setTargetPosition(0);
     }
 
-    private static void goNE(int distance) {
+    private void goNE(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(0);
         left_back.setTargetPosition(0);
         right_back.setTargetPosition(distance);
     }
 
-    private static void goSW(int distance) {
+    private void goSW(int distance) {
         left_front.setTargetPosition(-distance);
         right_front.setTargetPosition(0);
         left_back.setTargetPosition(0);
         right_back.setTargetPosition(-distance);
     }
 
-    private static void goSE(int distance) {
+    private void goSE(int distance) {
         left_front.setTargetPosition(0);
         right_front.setTargetPosition(-distance);
         left_back.setTargetPosition(-distance);
         right_back.setTargetPosition(0);
     }
 
-    private static void goTurnLeft(int distance) {
+    private void goTurnLeft(int distance) {
         left_front.setTargetPosition(-distance);
         right_front.setTargetPosition(distance);
         left_back.setTargetPosition(-distance);
         right_back.setTargetPosition(distance);
     }
 
-    private static void goTurnRight(int distance) {
+    private void goTurnRight(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(-distance);
         left_back.setTargetPosition(distance);
@@ -178,10 +180,10 @@ public class AutoBase {
         right_back.setPower(power);
     }
 
-    private void drive(Function <int, void> direction, double distanceIN, double motorPower) {
+    private void drive(goFunction direction, double distanceIN, double motorPower) {
         resetEncoders();
         setRunToPosition();
-        direction.apply((int) (PULSES_PER_IN*distanceIN));
+        direction.run((int) (PULSES_PER_IN*distanceIN));
         setMotors(motorPower);
         while (
             left_front.isBusy() &&
@@ -196,12 +198,16 @@ public class AutoBase {
         sleep(DELAY_BETWEEN_METHODS);
     }
 
+    private interface goFunction {
+        void run(int distanceIN);
+    }
+
     public void driveForward(double distanceIN) {
         driveForward(distanceIN, DRIVE_SPEED);
     }
 
     public void driveForward(double distanceIN, double motorPower) {
-        drive(goForward, distanceIN, motorPower);
+        drive(this::goForward, distanceIN, motorPower);
     }
 
     public void driveBackward(double distanceIN) {
