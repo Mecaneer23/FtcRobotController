@@ -104,23 +104,23 @@ public class AutoBase {
     }
 
     private void goBackward(Object distance) {
-        left_front.setTargetPosition((int) -distance);
-        right_front.setTargetPosition((int) -distance);
-        left_back.setTargetPosition((int) -distance);
-        right_back.setTargetPosition((int) -distance);
+        left_front.setTargetPosition(-(int) distance);
+        right_front.setTargetPosition(-(int) distance);
+        left_back.setTargetPosition(-(int) distance);
+        right_back.setTargetPosition(-(int) distance);
     }
 
     private void goLeft(Object distance) {
-        left_front.setTargetPosition((int) -distance);
+        left_front.setTargetPosition(-(int) distance);
         right_front.setTargetPosition((int) distance);
         left_back.setTargetPosition((int) distance);
-        right_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition(-(int) distance);
     }
 
     private void goRight(Object distance) {
         left_front.setTargetPosition((int) distance);
-        right_front.setTargetPosition((int) -distance);
-        left_back.setTargetPosition((int) -distance);
+        right_front.setTargetPosition(-(int) distance);
+        left_back.setTargetPosition(-(int) distance);
         right_back.setTargetPosition((int) distance);
     }
 
@@ -139,31 +139,31 @@ public class AutoBase {
     }
 
     private void goSW(Object distance) {
-        left_front.setTargetPosition((int) -distance);
+        left_front.setTargetPosition(-(int) distance);
         right_front.setTargetPosition((int) 0);
         left_back.setTargetPosition((int) 0);
-        right_back.setTargetPosition((int) -distance);
+        right_back.setTargetPosition(-(int) distance);
     }
 
     private void goSE(Object distance) {
         left_front.setTargetPosition((int) 0);
-        right_front.setTargetPosition((int) -distance);
-        left_back.setTargetPosition((int) -distance);
+        right_front.setTargetPosition(-(int) distance);
+        left_back.setTargetPosition(-(int) distance);
         right_back.setTargetPosition((int) 0);
     }
 
     private void goTurnLeft(Object distance) {
-        left_front.setTargetPosition((int) -distance);
+        left_front.setTargetPosition(-(int) distance);
         right_front.setTargetPosition((int) distance);
-        left_back.setTargetPosition((int) -distance);
+        left_back.setTargetPosition(-(int) distance);
         right_back.setTargetPosition((int) distance);
     }
 
     private void goTurnRight(Object distance) {
         left_front.setTargetPosition((int) distance);
-        right_front.setTargetPosition((int) -distance);
-        left_back.setTargetPosition((int) -distance);
-        right_back.setTargetPosition((int) -distance);
+        right_front.setTargetPosition(-(int) distance);
+        left_back.setTargetPosition((int) distance);
+        right_back.setTargetPosition(-(int) distance);
     }
 
     private static void stopDriving() {
