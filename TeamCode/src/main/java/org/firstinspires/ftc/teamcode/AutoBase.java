@@ -87,6 +87,13 @@ public class AutoBase {
         right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    private static void setRunWithoutEncoders() {
+        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
     private static void goForward(int distance) {
         left_front.setTargetPosition(distance);
         right_front.setTargetPosition(distance);
@@ -191,6 +198,7 @@ public class AutoBase {
             opMode.idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -214,6 +222,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -237,6 +246,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -260,6 +270,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -283,6 +294,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -306,6 +318,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -329,6 +342,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -352,6 +366,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -384,6 +399,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 
@@ -408,6 +424,7 @@ public class AutoBase {
             idle();
         }
         stopDriving();
+        setRunWithoutEncoders();
         sleep(DELAY_BETWEEN_METHODS);
     }
 }
