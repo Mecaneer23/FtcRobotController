@@ -180,8 +180,8 @@ public class AutoBase {
 
     private void drive(goFunction direction, double distanceIN, double motorPower) {
         resetEncoders();
-        setRunToPosition();
         direction.run((int) (PULSES_PER_IN*distanceIN));
+        setRunToPosition();
         setMotors(motorPower);
         while (
             left_front.isBusy() &&
