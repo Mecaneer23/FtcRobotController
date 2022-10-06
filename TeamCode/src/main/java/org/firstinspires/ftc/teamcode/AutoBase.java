@@ -216,19 +216,19 @@ public class AutoBase {
         drive(this::goBackward, distanceIN, motorPower);
     }
 
-    public void strafeLeft(int distanceIN) {
+    public void strafeLeft(double distanceIN) {
         strafeLeft(distanceIN, DRIVE_SPEED);
     }
 
-    public void strafeLeft(int distanceIN, double motorPower) {
+    public void strafeLeft(double distanceIN, double motorPower) {
         drive(this::goLeft, distanceIN, motorPower);
     }
 
-    public void strafeRight(int distanceIN) {
+    public void strafeRight(double distanceIN) {
         strafeRight(distanceIN, DRIVE_SPEED);
     }
 
-    public void strafeRight(int distanceIN, double motorPower) {
+    public void strafeRight(double distanceIN, double motorPower) {
         drive(this::goRight, distanceIN, motorPower);
     }
 
