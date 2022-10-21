@@ -1,3 +1,12 @@
+/*
+Control Scheme:
+  Gamepad 1 - robot locomotion:
+    left stick - xy position of robot
+    right stick - rotation of robot
+    right bumper 1/2 speed slowmode
+    dpad - 1.0 power in any given direction
+*/
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -5,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
-public class Mecanum_Drive extends LinearOpMode {
+public class GameBaseOp extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -33,12 +42,36 @@ public class Mecanum_Drive extends LinearOpMode {
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
 
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        AutoBase auto = new AutoBase(
+            this,
+            hardwareMap,
+            "frontLeft",
+            "frontRight",
+            "backLeft",
+            "backRight",
+            telemetry,
+            1,
+            1,
+            18,
+            18,
+            1.13,
+            100
+        );
+
         waitForStart();
         if (opModeIsActive()) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            telemetry.addData("Control Scheme",
+                    "\nleft stick - xy position of robot\nright stick - rotation of robot\nright bumper - 1/2 speed slowmode\nleft bumper - 1/4 speed slowmode\ndpad - 1.0 power in any given direction\nclick stick - rotate that direction\n\tnone - 90\n\ty - 45\n\tb - 120\n\ta - 180\nback - turn left\nguide - turn right");
 
             while (opModeIsActive()) {
                 x = gamepad1.left_stick_x;
@@ -86,6 +119,28 @@ public class Mecanum_Drive extends LinearOpMode {
                 }
                 if (shouldSlowmode) {
                     speed = 2;
+                }
+
+                if (gamepad1.left_stick_button) {
+                    if (gamepad1.y) {
+                        auto.turnLeft(45);
+                    } else if (gamepad1.b) {
+                        auto.turnLeft(120);
+                    } else if (gamepad1.a) {
+                        auto.turnLeft(180);
+                    } else {
+                        auto.turnLeft(90);
+                    }
+                } else if (gamepad1.right_stick_button) {
+                    if (gamepad1.y) {
+                        auto.turnRight(45);
+                    } else if (gamepad1.b) {
+                        auto.turnRight(120);
+                    } else if (gamepad1.a) {
+                        auto.turnRight(180);
+                    } else {
+                        auto.turnRight(90);
+                    }
                 }
 
                 fl /= speed;
