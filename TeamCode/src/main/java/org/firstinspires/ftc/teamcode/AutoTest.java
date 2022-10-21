@@ -29,7 +29,11 @@ public class AutoTest extends LinearOpMode {
             17,
             13,
             1.13,
-            100
+            100,
+            false,
+            0,
+            0,
+            0
         );
         waitForStart();
         if (opModeIsActive()) {

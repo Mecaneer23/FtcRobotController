@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AutoBase {
@@ -15,6 +16,9 @@ public class AutoBase {
     static final double WHEEL_DIAMETER_IN = 3.77953; // 96 mm
     static final double PULSES_PER_IN = PULSES_PER_REVOLUTION / (WHEEL_DIAMETER_IN * Math.PI);
     static double DRIVE_SPEED, TURN_SPEED, STRAFE_MULTIPLIER, DELAY_BETWEEN_METHODS, TURN_CONSTANT;
+    static boolean USE_PID;
+    double kP, kI, kD, proportional, integral = 0, derivative, prevError = 0, pid;
+    ElapsedTime timer = new ElapsedTime();
 
     public AutoBase(
             LinearOpMode opMode,
@@ -29,12 +33,17 @@ public class AutoBase {
             double lengthInches, // front-back axle to axle
             double widthInches, // left-right wheel center to wheel center
             double strafeMultiplier, // 1.13 units
-            double delay // 100 ms
+            double delay, // 100 ms
+            boolean usePID, // https://www.ctrlaltftc.com/the-pid-controller/tuning-methods-of-a-pid-controller
+            double kP,
+            double kI,
+            double kD
     ) {
         DRIVE_SPEED = driveSpeed;
         TURN_SPEED = turnSpeed;
         STRAFE_MULTIPLIER = strafeMultiplier;
         DELAY_BETWEEN_METHODS = delay;
+        USE_PID = usePID;
         TURN_CONSTANT = (Math.PI * Math.sqrt((Math.pow(lengthInches / 2.0, 2.0) + Math.pow(widthInches / 2.0, 2.0)) / 2.0)) / 90.0;
 
         frontLeft = hardwareMap.get(DcMotor.class, left_front_name);
@@ -54,18 +63,47 @@ public class AutoBase {
 
         this.telemetry = telemetry;
         this.opMode = opMode;
-    }
-    private void sleep(double milliseconds) {
-        opMode.sleep((long) milliseconds);
-    }
-
-    private void idle() {
-        opMode.idle();
+        this.kP = kP;
+        this.kI = kI;
+        this.kD = kD;
     }
 
-    private void print(String key, String value) {
-        this.telemetry.addData(key, value);
-        this.telemetry.update();
+    private void drive(goFunction direction, double distanceIN, double motorPower) {
+        resetEncoders();
+        direction.run((int) (PULSES_PER_IN*distanceIN));
+        if (USE_PID) {
+            integral = 0;
+            setRunWithoutEncoders();
+            timer.reset();
+        } else {
+            setRunToPosition();
+        }
+        setMotors(motorPower);
+        while (
+                frontLeft.isBusy() &&
+                        frontRight.isBusy() &&
+                        backLeft.isBusy() &&
+                        backRight.isBusy()
+        ) {
+            if (USE_PID) {
+                proportional = (PULSES_PER_IN * distanceIN) - frontLeft.getCurrentPosition();
+                integral += proportional * timer.seconds();
+                derivative = (proportional - prevError) / timer.seconds();
+                pid = (kP * proportional) + (kI * integral) + (kD * derivative);
+                setMotors(Math.min(pid, motorPower));
+                prevError = proportional;
+                timer.reset();
+            } else {
+                opMode.idle();
+            }
+        }
+        stopDriving();
+        setRunWithoutEncoders();
+        opMode.sleep((long) DELAY_BETWEEN_METHODS);
+    }
+
+    private interface goFunction {
+        void run(int distanceIN);
     }
 
     private static void setRunToPosition() {
@@ -171,28 +209,6 @@ public class AutoBase {
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(power);
-    }
-
-    private void drive(goFunction direction, double distanceIN, double motorPower) {
-        resetEncoders();
-        direction.run((int) (PULSES_PER_IN*distanceIN));
-        setRunToPosition();
-        setMotors(motorPower);
-        while (
-                frontLeft.isBusy() &&
-                        frontRight.isBusy() &&
-                        backLeft.isBusy() &&
-                        backRight.isBusy()
-        ) {
-            idle();
-        }
-        stopDriving();
-        setRunWithoutEncoders();
-        sleep(DELAY_BETWEEN_METHODS);
-    }
-
-    private interface goFunction {
-        void run(int distanceIN);
     }
 
     public void driveForward(double distanceIN) {

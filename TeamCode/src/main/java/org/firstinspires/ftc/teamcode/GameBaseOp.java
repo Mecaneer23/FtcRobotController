@@ -60,7 +60,11 @@ public class GameBaseOp extends LinearOpMode {
             18,
             18,
             1.13,
-            100
+            100,
+            false,
+            0,
+            0,
+            0
         );
 
         waitForStart();
