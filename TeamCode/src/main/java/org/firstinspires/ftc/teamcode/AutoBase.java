@@ -94,7 +94,8 @@ public class AutoBase {
                 prevError = proportional;
                 timer.reset();
             } else {
-                opMode.idle();
+//                opMode.idle();
+                setMotors((-1.0/Math.pow(PULSES_PER_IN * distanceIN, 2.0)) * Math.pow((PULSES_PER_IN * distanceIN) - frontLeft.getCurrentPosition(), 2.0) + motorPower);
             }
         }
         stopDriving();
