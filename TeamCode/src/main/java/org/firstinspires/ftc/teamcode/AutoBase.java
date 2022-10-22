@@ -17,8 +17,7 @@ public class AutoBase {
     static final double PULSES_PER_IN = PULSES_PER_REVOLUTION / (WHEEL_DIAMETER_IN * Math.PI);
     static double DRIVE_SPEED, TURN_SPEED, STRAFE_MULTIPLIER, DELAY_BETWEEN_METHODS, TURN_CONSTANT;
     static boolean USE_PID;
-    double kP, kI, kD, proportional, integral = 0, derivative, prevError = 0, pid;
-    ElapsedTime timer = new ElapsedTime();
+    double kP, kI, kD;
 
     public AutoBase(
             LinearOpMode opMode,
@@ -69,12 +68,12 @@ public class AutoBase {
     }
 
     private void drive(goFunction direction, double distanceIN, double motorPower) {
+        ElapsedTime timer = new ElapsedTime();
+        double proportional, integral = 0, derivative, pid, prevError = 0, totalTicks = PULSES_PER_IN * distanceIN;
         resetEncoders();
-        direction.run((int) (PULSES_PER_IN*distanceIN));
+        direction.run((int) totalTicks);
         if (USE_PID) {
-            integral = 0;
             setRunWithoutEncoders();
-            timer.reset();
         } else {
             setRunToPosition();
         }
@@ -86,7 +85,7 @@ public class AutoBase {
                         backRight.isBusy()
         ) {
             if (USE_PID) {
-                proportional = (PULSES_PER_IN * distanceIN) - frontLeft.getCurrentPosition();
+                proportional = totalTicks - frontLeft.getCurrentPosition();
                 integral += proportional * timer.seconds();
                 derivative = (proportional - prevError) / timer.seconds();
                 pid = (kP * proportional) + (kI * integral) + (kD * derivative);
@@ -95,7 +94,7 @@ public class AutoBase {
                 timer.reset();
             } else {
 //                opMode.idle();
-                setMotors((-1.0/Math.pow(PULSES_PER_IN * distanceIN, 2.0)) * Math.pow((PULSES_PER_IN * distanceIN) - frontLeft.getCurrentPosition(), 2.0) + motorPower);
+                setMotors(-4.0 * motorPower / Math.pow(totalTicks, 2.0) * Math.pow(totalTicks / 2.0 - frontLeft.getCurrentPosition(), 2.0) + motorPower);
             }
         }
         stopDriving();
