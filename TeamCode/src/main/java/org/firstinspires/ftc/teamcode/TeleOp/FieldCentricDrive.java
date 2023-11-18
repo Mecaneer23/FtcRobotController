@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
 public class FieldCentricDrive extends LinearOpMode {
@@ -50,7 +53,7 @@ public class FieldCentricDrive extends LinearOpMode {
             while (opModeIsActive()) {
                 x = gamepad1.left_stick_x;
                 y = -gamepad1.left_stick_y;
-                clockwise = gamepad1.right_stick_x;
+                clockwise = -gamepad1.right_stick_x;
 
                 if (gamepad1.dpad_up) {
                     y = (float) 1.0;
@@ -69,12 +72,12 @@ public class FieldCentricDrive extends LinearOpMode {
                 }
 
                 heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-                rotX = (x * Math.cos(-botHeading) - y * Math.sin(-botHeading)) * 1.1;
-                rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-                denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+                rotX = (x * Math.cos(-heading) - y * Math.sin(-heading)) * 1.1;
+                rotY = x * Math.sin(-heading) + y * Math.cos(-heading);
+                denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(clockwise), 1);
                 fl = (rotY + rotX + clockwise) / denominator;
-                fr = (rotY - rotX + clockwise) / denominator;
-                bl = (rotY - rotX - clockwise) / denominator;
+                bl = (rotY - rotX + clockwise) / denominator;
+                fr = (rotY - rotX - clockwise) / denominator;
                 br = (rotY + rotX - clockwise) / denominator;
 
                 if (gamepad1.right_bumper) {
